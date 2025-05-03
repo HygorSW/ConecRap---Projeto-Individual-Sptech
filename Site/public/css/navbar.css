@@ -1,0 +1,108 @@
+/* Navbar css */
+.navbar {
+    width: 90%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    font-weight: 700;
+    position: fixed;
+    top: 0;
+    background: #00000091;
+    border-radius: 15px;
+    margin: 1%;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+.logoNav img {
+    width: 200px;
+    height: 100%;
+}
+
+ul.sessoesNav {
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    list-style-type: none;
+}
+
+.btnsContainerNav {
+    width: 400px;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btnNav {
+    position: relative;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: center;
+}
+
+
+.liNav {
+    color: white;
+    position: relative;
+    cursor: pointer;
+    width: 100px;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.liNav::after {
+    position: absolute;
+    width: 0;
+    content: ' ';
+    height: 3px;
+    background-color: white;
+    transition: 0.5s;
+    bottom: 1px;
+    left: 0;
+}
+
+.liNav:hover::after {
+    width: 100%;
+}
+
+
+.btnNav:hover {
+    color: orange;
+    transition: 0.5s;
+
+}
+
+.btnNav::after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background-color: white;
+    bottom: 0px;
+    transition: 0.5s;
+}
+
+.btnNav:hover::after {
+    width: 100%;
+}

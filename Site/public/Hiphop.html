@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConecRap</title>
     <link rel="stylesheet" href="./css/hiphop.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <script src="./js/hiphop.js" defer></script>
 </head>
 
 <body>
@@ -16,16 +19,16 @@
                     <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
                 </div>
                 <ul class="sessoesNav">
-                    <li><a href="./index.html">Home</a></li>
-                    <li><a href="./Hiphop.html">Sobre Hiphop</a></li>
-                    <li>Vivéncias</li>
-                    <li>Quiz</li>
-                    <li>Dashboard</li>
+                    <li class="liNav"><a href="./index.html">Home</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Sobre Hiphop</a></li>
+                    <li class="liNav"><a href="./vivencias.html">Vivéncias</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Quiz</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Dashboard</a></li>
                 </ul>
 
                 <div class="btnsContainerNav">
-                    <div class="btnNav">LOGIN</div>
-                    <div class="btnNav" id="btnCadastro">CADASTRO</div>
+                    <a href="./login.html" class="btnNav">LOGIN</a>
+                    <a href="./cadastro.html" class="btnNav" id="btnCadastro">CADASTRO</a>
 
                 </div>
             </div> <!-- Fim componente navbar -->
@@ -34,10 +37,23 @@
                 <h1>CONHEÇA A HISTORIA DO HIPHOP</h1>
             </div> <!-- Fim componente butões home -->
             <div class="rowCarrosel">
-                <img src="./assets/imgsConecRap/home/elementos/right.png" alt="">
-                <div class="carrosel"><img src="./assets/imgsConecRap/home/elementos/carrosel1.png" alt=""></div>
-                <img src="./assets/imgsConecRap/home/elementos/right.png" alt="">
+                <div class="container-slider">
+                    <button id="prev-button"><img src="./assets/imgsConecRap/hiphopPage/slide/arrow.png"
+                            alt=""></button>
 
+                    <div class="container-images">
+                        <img src="./assets/imgsConecRap/hiphopPage/slide/o_que_e_hiphop.png" alt="origem do hiphop"
+                            class="slider on">
+                        <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="origem do hiphop" class="slider">
+
+                    </div>
+
+                    <button id="next-button"><img src="./assets/imgsConecRap/hiphopPage/slide/arrow.png"
+                            alt=""></button>
+                </div>
+            </div>
+            <div id="row_list_carrossel">
+                <div id="bolinhas_list_carrossel"> </div>
             </div>
         </div> <!-- Fim sessão home -->
 
@@ -49,9 +65,9 @@
                 <h2>ARTISTAS</h2>
             </div>
             <div class="rowArtistas">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
+                <img src="./assets/imgsConecRap/hiphopPage/artistas/tupac.png" alt="">
+                <img src="./assets/imgsConecRap/hiphopPage/artistas/puma.png" alt="">
+                <img src="./assets/imgsConecRap/hiphopPage/artistas/matue.png" alt="">
 
             </div>
         </div> <!-- Fim sessão artista -->
@@ -62,9 +78,9 @@
                 <h2>FILMES</h2>
             </div>
             <div class="rowArtistas">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
+                <img src="./assets/imgsConecRap/hiphopPage/filmes/mid.png" alt="">
+
+                <img src="./assets/imgsConecRap/hiphopPage/filmes/stepUp.png" alt="">
 
             </div>
         </div> <!-- Fim sessão filmes -->
@@ -75,20 +91,36 @@
                 <h2>Livros</h2>
             </div>
             <div class="rowArtistas">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
-                <img src="./assets/imgsConecRap/home/elementos/tupac.png" alt="">
+                <img src="./assets/imgsConecRap/hiphopPage/livros/gibi.png" alt="">
 
+                <img src="./assets/imgsConecRap/hiphopPage/livros/recionais.png" alt="">
             </div>
         </div> <!-- Fim sessão livros -->
 
 
-        <div class="section_Spotify"> <!-- sessão livros -->
+        <div class="section" id="section_spotify"> <!-- sessão livros -->
             <div class="subtitulo_artistas">
                 <h2>MINHA PLAYLIST</h2>
             </div>
+            <div class="rowArtistas">
+                <img src="./assets/imgsConecRap/hiphopPage/spotify.png" alt="">
+            </div>
         </div><!-- Fim sessão spotify -->
 
+        <div class="section_footer"> <!-- Footer -->
+            <div class="container_footer">
+                <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
+                <div class="texto_footer">
+                    <h2>Contato: silvazhygor@gmail.com</h2>
+                    <h2>@ 2025 Hygor Silva</h2>
+                </div>
 
+                <div class="icons_footer">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                </div>
+            </div>
+        </div> <!-- Fim  Footer -->
 
 </body>
 

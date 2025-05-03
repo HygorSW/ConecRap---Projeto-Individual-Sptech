@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConecRap</title>
     <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+
 </head>
 
 <body>
@@ -16,16 +19,16 @@
                     <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
                 </div>
                 <ul class="sessoesNav">
-                    <li>Home</li>
-                    <li><a href="./Hiphop.html">Sobre Hiphop</a></li>
-                    <li>Vivéncias</li>
-                    <li>Quiz</li>
-                    <li>Dashboard</li>
+                    <li class="liNav"><a href="./index.html">Home</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Sobre Hiphop</a></li>
+                    <li class="liNav"><a href="./vivencias.html">Vivéncias</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Quiz</a></li>
+                    <li class="liNav"><a href="./Hiphop.html">Dashboard</a></li>
                 </ul>
 
                 <div class="btnsContainerNav">
-                    <div class="btnNav">LOGIN</div>
-                    <div class="btnNav" id="btnCadastro">CADASTRO</div>
+                    <a href="./login.html" class="btnNav">LOGIN</a>
+                    <a href="./cadastro.html" class="btnNav" id="btnCadastro">CADASTRO</a>
 
                 </div>
             </div> <!-- Fim componente navbar -->
@@ -53,22 +56,16 @@
             </div> <!-- fim titulo welcome -->
 
             <div class="containerCards_welcome"> <!-- titulo welcome cards -->
-                <div class="rowCards">
-                    <div class="card_conecrap">
-                        <img src="./assets/imgsConecRap/home/icons/icon_microfone.png" alt="">
-                        <h2>Descubra eventos de Hip-Hop em sua cidade.</h2>
-                    </div>
-
-                    <div class="card_conecrap">
-                        <img src="./assets/imgsConecRap/home/icons/icon_postar_icon.png" alt="">
-                        <h2>Mostre seu conhecimento no Quiz de Hip-Hop.</h2>
-                    </div>
-
-                    <div class="card_conecrap">
-                        <img src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
-                        <h2>Conecte-se e fortaleça a cultura Hip-Hop.</h2>
-                    </div>
+                <img src="./assets/imgsConecRap/home/elementos/desafio_home_quiz.png" alt="">
+                <div class="legenda_card_home">
+                    <h2>Mostre seu conhecimento <br> no Quiz de Hip-Hop.</h2>
                 </div>
+            </div>
+
+            <div class="containerCards_welcome"> <!-- titulo welcome cards -->
+                <h2>Poste suas ideias e <br>
+                    histórias no blog.</h2>
+                <img src="./assets/imgsConecRap/home/elementos/posts_img_home.png" alt="">
 
             </div>
 
@@ -76,10 +73,14 @@
         <div class="section" id="section_sobreHiphop"> <!-- section sobre hiphop -->
             <div class="containerSobre_hiphop"> <!-- sobre hiphop -->
                 <div class="videoHipHopDiv">
-                    <iframe width="560" height="355" src="https://www.youtube.com/embed/eC6p6xSLmKs?si=3HLYWCfdJqrsfiVd"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <video width="200" height="360" autoplay muted playsinline src="./assets/videos/grafite_home.mp4"
+                        type="video/mp4"> </video>
+                    <video width="300" height="460" autoplay muted playsinline src="./assets/videos/step_up_home.mp4"
+                        type="video/mp4"> </video>
+                    <video width="200" height="360" autoplay muted playsinline
+                        src="./assets/videos/batalha_rima (2).mp4" type="video/mp4"> </video>
+
+
                 </div>
                 <div class="textoSobreHiphop">
                     <div class="tituloHiphop">
@@ -114,6 +115,8 @@
 
         </div><!-- fim sobre hiphop -->
 
+
+
         <div id="section_chamada"> <!-- section faça parte -->
 
             <div class="containerChamada">
@@ -121,20 +124,52 @@
                     <h1>Faça parte da cultura!</h1>
                     <p>Acompanhe histórias ou mostre o seu rolê.</p>
                 </div>
-                <div class="btnChamada">Faça seu cadastro</div>
+                <a href="./cadastro.html" class="btnChamada">Faça seu cadastro</a>
             </div>
         </div> <!-- fim faça parte -->
 
-        <div class="containerFooter">
-            <div class="left_footer">
-                <p>Contato: ConecRap@gmail.com</p>
-                <img src="./assets/imgsConecRap/home/elementos/imgFooter.png" alt="">
+
+
+        <div class="section_Dev"> <!-- Dev container -->
+            <div class="titulo_dev">
+                <h1>Desenvolvedor</h1>
             </div>
-            <div class="right_footer">
+            <div class="container_dev">
+                <img src="./assets/imgsConecRap/home/eu_imagem.png" alt="">
+                <div class="container_texto_dev">
+                    <div class="texto_dev">
+                        <h1>Sobre Mim</h1>
+                        <p>Olá, me chamo Hygor Silva, tenho 19 anos e atualmente estou cursando Análise e
+                            Desenvolvimento de Sistemas pela SPTech (São Paulo Tech School). Gosto muito de ouvir
+                            músicas no estilo Hip Hop, jogar videogame, assistir animes e praticar esportes no meu tempo
+                            livre.
+                        </p>
+                    </div>
+                    <div class="texto_dev">
+                        <h1>Por que um projeto de HipHop?</h1>
+                        <p>O Hip Hop apareceu na minha vida como uma forma de expressão e sempre me ajudou em momentos
+                            difíceis. Quando comecei a viver o Hip Hop, passei a enxergar o mundo com outros olhos. O
+                            Hip Hop me inspira e me motiva, principalmente com suas músicas, a sempre seguir em frente
+                            em busca dos meus sonhos e objetivos na vida. </p>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Fim  Dev container -->
+
+        <div class="section_footer"> <!-- Footer -->
+            <div class="container_footer">
                 <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
-                <p>by: Hygor Silva</p>
+                <div class="texto_footer">
+                    <h2>Contato: silvazhygor@gmail.com</h2>
+                    <h2>@ 2025 Hygor Silva</h2>
+                </div>
+
+                <div class="icons_footer">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                </div>
             </div>
-        </div>
+        </div> <!-- Fim  Footer -->
 
 
     </div>

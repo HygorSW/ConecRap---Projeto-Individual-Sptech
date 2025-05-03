@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConecRap</title>
+    <link rel="stylesheet" href="./css/vivencias.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=monitoring" />
+</head>
+
+<body>
+    <div class="main"> <!-- div principal  -->
+        <div class="navbar"> <!-- componente navbar  -->
+            <div class="logoNav">
+                <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
+            </div>
+            <ul class="sessoesNav">
+                <li class="liNav"><a href="./index.html">Home</a></li>
+                <li class="liNav"><a href="./Hiphop.html">Sobre Hiphop</a></li>
+                <li class="liNav"><a href="./vivencias.html">Vivéncias</a></li>
+                <li class="liNav"><a href="./Hiphop.html">Quiz</a></li>
+                <li class="liNav"><a href="./Hiphop.html">Dashboard</a></li>
+            </ul>
+            <div class="btnsContainerNav">
+                <a href="./login.html" class="btnNav">LOGIN</a>
+                <a href="./cadastro.html" class="btnNav" id="btnCadastro">CADASTRO</a>
+
+            </div>
+        </div> <!-- Fim componente navbar -->
+
+        <div class="section" id="section_post"> <!-- section tela  -->
+
+            <div class="header"> <!-- header  -->
+                <div class="subtitulos_header">
+                    <h5>Acompanhe as vivências da cultura!</h5>
+                    <h5>Mande o link dos seus vídeos pra gente postar!</h5>
+                </div>
+                <select class="btnPost" name="" id="">
+                    <option value="todos">TODOS</option>
+                </select>
+            </div> <!-- fim header  -->
+            <div class="container_post"> <!--  post container  -->
+                <div class="row_buttons"> <!--top post  -->
+                    <input class="btnPost" type="text" placeholder="Pesquisar">
+
+                    <div class="btnPost_div">
+                        <div onclick="abirModal()" class="btnPost" id="btnModal">MANDE SEU VIDEO</div>
+                        <div class="btnPost" id="btnDashboard"><span class="material-symbols-outlined"
+                                style="font-size: 45px;color: white;">monitoring</span></div>
+                    </div>
+                </div> <!-- fim top post  -->
+
+                <div class="posts_div"> <!-- lista post  -->
+
+                    <div class="post">
+                        <div class="texto_post">
+                            <h1>Hard Flip No Gap</h1>
+                            <p>Enviado por: ${nome}</p>
+                        </div>
+                        <iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/qrFKpPHVbS8?si=a7EoJRGlT7wpDLNJ"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+
+
+
+
+                </div> <!-- fim lista post  -->
+
+
+            </div><!-- fim post container  -->
+
+        </div><!-- dim main da pagina -->
+
+        <div class="section_footer"> <!-- Footer -->
+            <div class="container_footer">
+                <img src="./assets/imgsConecRap/LogoSemFundo.png" alt="">
+                <div class="texto_footer">
+                    <h2>Contato: silvazhygor@gmail.com</h2>
+                    <h2>@ 2025 Hygor Silva</h2>
+                </div>
+
+                <div class="icons_footer">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                    <img height="50px" src="./assets/imgsConecRap/home/icons/icon_curtir.png" alt="">
+                </div>
+            </div>
+        </div> <!-- Fim  Footer -->
+    </div><!-- fim principal  -->
+
+
+
+    <!-- modal publicação -->
+    <div class="janela-modal" id="janela">
+        <div class="modal">
+            <div class="fechar_modal"><span id="btnFechar">x</span></div>
+            <div class="campo_input_modal">
+                <h5>Insira o título do video:</h5>
+                <input type="text" class="input_modal" id="titulo_video">
+            </div>
+
+            <div class="campo_input_modal">
+                <h5>Coloque o link do seu vídeo:</h5>
+                <input type="text" oninput="preview()" class="input_modal" id="url_video">
+            </div>
+
+            <div id="preview_modal">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/4-S4unSPNJQ?si=kG0qwMs_WfpIKpt5"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <div class="input_modal" id="enviar_modal">ENVIAR</div>
+
+        </div>
+    </div>
+
+    </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function abirModal() {
+        janela.classList.add('abrir');
+
+        janela.addEventListener('click', (e) => {
+            if (e.target.id == 'btnFechar' || e.target.id == 'janela') {
+                janela.classList.remove('abrir')
+            }
+        })
+    }
+
+    function preview() {
+        preview_url = url_video.value;
+
+        if (preview_url.includes('youtube.com/') == false) {
+            preview_modal.innerHTML = "<span style='color:red' > Erro! </span> O link deve ser do Youtube.";
+        } else if (preview_url.includes('embed') == false) {
+            var videoId = preview_url.substring(preview_url.indexOf("v=") + 2, preview_url.indexOf("&")); // pega o id pra converter para embed
+
+            if (!preview_url.includes('watch?v=')) {
+                preview_modal.innerHTML = "<span style='color:red' > Erro! </span> link invalido.";
+            } else {
+
+                preview_modal.innerHTML = `  <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`}
+        } else {
+            preview_modal.innerHTML = `  <iframe width="560" height="315" src="${preview_url}"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+        }
+
+
+    }
+
+
+</script>

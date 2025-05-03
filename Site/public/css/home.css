@@ -18,20 +18,6 @@ body {
     height: 100vh;
 }
 
-/* Navbar css */
-.navbar {
-    width: 100%;
-    height: 11%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    color: white;
-    font-weight: 700;
-    position: fixed;
-    top: 0;
-    background: #0000002b;
-}
-
 #section_home {
     background-image: url(../assets/imgsConecRap/backgroundHome.png);
     background-size: cover;
@@ -42,49 +28,8 @@ body {
 }
 
 
-.logoNav img {
-    width: 200px;
-    height: 100%;
-}
-
-ul.sessoesNav {
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-    height: 100%;
-    align-items: center;
-    list-style-type: none;
-}
-
-.btnsContainerNav {
-    width: 400px;
-    height: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.btnNav {
-    width: 150px;
-    height: 50px;
-    background: transparent;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    transition: 0.2s;
-    cursor: pointer;
-}
-
-.btnNav:hover {
-}
-
-#btnCadastro{
-}
-
 /* texto main */
+
 .tituloHome {
     height: 65%;
     width: 100%;
@@ -119,15 +64,25 @@ span {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.btnAcao:hover {
+    transform: scale(1.1);
+    color: orange;
 }
 
 /* sessão welcome */
 
 #section_welcome {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    height: fit-content;
+    gap: 100px;
+    padding-top: 50px;
 }
 
 .titulo_welcome {
@@ -142,43 +97,27 @@ span {
     gap: 30px;
 }
 
+.legenda_card_home {
+    position: absolute;
+    color: black;
+    right: 27%;
+    font-size: 34px;
+}
+
 .containerCards_welcome {
     width: 100%;
     height: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    gap: 50px;
+    font-size: 40px;
 }
 
-.rowCards {
-    width: 85%;
-    height: 95%;
-    background: white;
-    border: 1px solid black;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+.containerCards_welcome img {
 
-.card_conecrap {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 90%;
-    transition: 0.2s;
-    justify-content: center;
-}
-
-.card_conecrap img {
-    width: 150px;
-    height: auto;
-}
-
-.card_conecrap:hover {
-    transform: scale(1.1);
+    height: 100%;
 }
 
 /* sobre */
@@ -196,7 +135,7 @@ span {
     height: fit-content;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 #section_sobreHiphop {
@@ -256,13 +195,13 @@ span {
 }
 
 .containerChamada {
-    height: 600px;
+    height: 300px;
     color: white;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 15px;
+    gap: 20px;
     width: 100%;
 }
 
@@ -285,7 +224,7 @@ span {
 }
 
 .btnChamada {
-    height: 10%;
+    height: 20%;
     width: 20%;
     background: white;
     color: black;
@@ -295,37 +234,50 @@ span {
     border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.5s;
+
 }
 
-/* footer */
-.containerFooter {
-    width: 100%;
-    height: 350px;
+.btnChamada:hover {
+    color: orange;
+    transform: scale(1.1);
+}
+
+/* Dev css */
+
+.section_Dev {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: white;
 }
 
-.left_footer {
-    width: 50%;
+.container_dev {
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.titulo_dev {
+    width: 70%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    padding: 1%;
+    /* padding-left: 20%; */
+}
+
+.container_texto_dev {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    font-size: 25px;
+    min-height: 100%;
     justify-content: space-between;
-    flex-direction: column;
 }
 
-.left_footer p {
-    padding-left: 3%;
-}
-
-.right_footer {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.right_footer img {
-    height: 90%;
-    width: auto;
-}
