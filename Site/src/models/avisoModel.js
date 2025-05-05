@@ -7,14 +7,16 @@ function listar() {
             a.id AS idAviso,
             a.titulo,
             a.descricao,
+            a.url,
             a.fk_usuario,
-            u.id AS idUsuario,
+            u.idUsuario AS idUsuario,
             u.nome,
             u.email,
             u.senha
         FROM aviso a
             INNER JOIN usuario u
-                ON a.fk_usuario = u.id;
+                ON a.fk_usuario = u.idUsuario 
+                    order by rand();
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -27,15 +29,17 @@ function pesquisarDescricao(texto) {
             a.id AS idAviso,
             a.titulo,
             a.descricao,
+            a.url,
+            a.criado_em,
             a.fk_usuario,
-            u.id AS idUsuario,
+            u.idUsuario AS idUsuario,
             u.nome,
             u.email,
             u.senha
         FROM aviso a
             INNER JOIN usuario u
-                ON a.fk_usuario = u.id
-        WHERE a.descricao LIKE '${texto}';
+                ON a.fk_usuario = u.idUsuario
+        WHERE a.descricao LIKE '${texto}' order by a.criado_em desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -48,24 +52,26 @@ function listarPorUsuario(idUsuario) {
             a.id AS idAviso,
             a.titulo,
             a.descricao,
+            a.url,
+            a.criado_em,
             a.fk_usuario,
-            u.id AS idUsuario,
+            u.idUsuario AS idUsuario,
             u.nome,
             u.email,
             u.senha
         FROM aviso a
             INNER JOIN usuario u
-                ON a.fk_usuario = u.id
-        WHERE u.id = ${idUsuario};
+                ON a.fk_usuario = u.idUsuario
+        WHERE u.idUsuario = ${idUsuario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function publicar(titulo, descricao, idUsuario) {
+function publicar(titulo, descricao, idUsuario, url) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", titulo, descricao, idUsuario);
     var instrucaoSql = `
-        INSERT INTO aviso (titulo, descricao, fk_usuario) VALUES ('${titulo}', '${descricao}', ${idUsuario});
+        INSERT INTO aviso (titulo, descricao, url, fk_usuario, criado_em) VALUES ('${titulo}', '${descricao}', '${url}', ${idUsuario}, default);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
