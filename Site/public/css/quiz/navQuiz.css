@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+}
+
+.navbar {
+    height: 100%;
+    width: 20%;
+    background: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo_nav {
+    width: 90%;
+    height: fit-content;
+}
+
+.logo_nav img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+/* btns */
+
+.btnDiv {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btnNavbar {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #0f0f0f;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 20px;
+    height: 90px;
+}
+
+.logoutDiv {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+.btnNavbar img {
+    height: auto;
+    max-width: 100px;
+}

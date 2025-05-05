@@ -127,21 +127,25 @@ body {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    height: 450px;
+    height: 560px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+}
+
+.texto_post h1 {
+    font-size: 22px;
 }
 
 .texto_post {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 15%;
-    width: 90%;
-    justify-content: space-between;
+    max-height: 150px;
+    width: 95%;
+    justify-content: flex-start;
+    height: 30%;
+    gap: 10px;
 }
-
-
 
 .post iframe {
     border-radius: 10px;
@@ -164,6 +168,9 @@ body {
 
 .janela-modal.abrir {
     display: flex;
+    background: #0a0a0a8c;
+    backdrop-filter: blur(10px);
+    z-index: 999;
 }
 
 .modal {
@@ -176,7 +183,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    transform: translateY(50px);
 }
 
 /* inputs */
@@ -224,6 +230,7 @@ body {
     align-items: center;
 }
 
+
 .fechar_modal span {
     width: 40px;
     background: white;
@@ -259,7 +266,7 @@ body {
 
     to {
         opacity: 1;
-        transform: translate3d(0, 50px, 0);
+        transform: translate3d(0, 0, 0);
     }
 
 
@@ -302,27 +309,29 @@ form#form_postagem {
 
 .janela_dash.abrir {
     display: flex;
+    background: #0a0a0a8c;
+    backdrop-filter: blur(10px);
+    z-index: 999;
 
 }
 
 
 .modal_dash {
-    width: 80%;
-    min-width: 450px;
-    min-height: 700px;
-    background-color: rgba(255, 255, 255, 0.507);
+    width: 85%;
+    min-width: 490px;
+    min-height: fit-content;
+    border-radius: 15px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    background: black;
+    justify-content: flex-end;
+    background: white;
+    height: 80%;
+    gap: 20px;
 }
 
-.grafico_post_semanal {
+.grafico_Dash {
     height: 300px;
-}
-
-.grafico_categoria {
-    height: 300px;
+    background: white;
 }
 
 .container_indicadores {
@@ -330,12 +339,29 @@ form#form_postagem {
     display: flex;
     flex-direction: column;
     min-width: 100px;
-    justify-content: space-between;
+    justify-content: space-around;
+    width: 25%;
 }
 
 .indicadores {
-    height: 35%;
-    background: red;
+    height: 40%;
+    background: #111827;
+    border-radius: 15px;
+    color: white;
+}
+
+.container_graficos {
+    width: 40%;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+canvas {
+    height: 100%;
+    width: 100%;
 }
 
 @keyframes abrirmodalDash {
@@ -353,17 +379,92 @@ form#form_postagem {
 }
 
 .abrir .modal_dash {
-    animation: abrirmodal 0.5s;
+    animation: abrirmodalDash 0.5s;
 }
 
+/* feed dash */
 .container_feed {
-    width: 40%;
+    width: 35%;
     min-width: 400px;
-    background: red;
+}
+
+
+.titleDash {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+    padding-left: 10px;
+    gap: 20%;
+}
+
+#btnFecharDash {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.btnFeeDash {
+    height: 50px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 0px 0px 0px 20px;
+    background-color: orange;
+    color: white;
+    cursor: pointer;
+    border: none;
+    translate: -5px;
+}
+
+.value_indicadores {
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    color: orange;
+}
+
+
+/* post */
+
+.post_dash {
+    width: 90%;
+    height: 55%;
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.texto_post_das {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 15px;
 }
 
 .feed_dash {
-    height: 90%;
+    height: 85%;
     width: 90%;
-    background: gray;
+    background: #111827;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.texto_post_das {
+    height: 30%;
+    width: 100%;
 }

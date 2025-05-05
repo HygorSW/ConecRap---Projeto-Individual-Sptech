@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/vivencias.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/sessao.js"></script>
     <script src="./../js/alerta.js"></script>
     <link rel="stylesheet"
@@ -89,40 +90,58 @@
     <!-- Modal dashboard -->
     <div class="janela_dash" id="janela-modal">
         <div class="modal_dash">
-            <button id="btnFechar">X</button>
+            <div id="btnFecharDash">X</div>
             <div class="container_graficos">
-                <div class="grafico_post_semanal">
+                <div class="grafico_Dash">
                     <canvas id="grafico_post"></canvas>
                 </div>
 
-                <div class="grafico_categoria">
+                <div class="grafico_Dash">
                     <canvas id="graficoCategoria"></canvas>
                 </div>
             </div>
 
             <div class="container_indicadores">
                 <div class="indicadores">
-                    <h1>Quatidade total de post:</h1>
+                    <div class="titleDash">
+                        <h1>Quatidade total de post:</h1>
+                    </div>
+                    <div class="value_indicadores"><h1>12</h1></div>
+
                 </div>
 
                 <div class="indicadores">
-                    <h1>Categoria com mais post:</h1>
+                    <div class="titleDash">
+                        <h1>Categoria com mais post:</h1>
+                    </div>
+                    <div class="value_indicadores"><h1>Rimas</h1></div>
                 </div>
             </div>
             <div class="container_feed">
-                <h5>Meus Post</h5>
-
+                <div class="titleDash">
+                    <h1>Meus Post</h1>
+                    <select class="btnFeeDash" name="" id="">
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
                 <div class="feed_dash">
-                    <div class="post_dash">
-
+                      <div class="post_dash">
+                        <div class="texto_post_das">
+                            <h1>${publicacao.titulo}</h1>
+                            <h5>Enviado por:${publicacao.nome}</h5>
+                            <p>Descrição: <b>${publicacao.descricao}</p>
+                        </div>
+                        <iframe width="100%" height="70%s"
+                        src="https://www.youtube.com/embed/G8u3P7Xqlvo?si=a7EoJRGlT7wpDLNJ"
+                        title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
-
-
 
     <!-- modal publicação -->
     <div class="janela-modal" id="janela">
@@ -132,19 +151,19 @@
                 <div class="fechar_modal"><span id="btnFechar">x</span></div>
                 <div class="campo_input_modal">
                     <h5>Insira o título do video:</h5>
-                    <input type="text" class="input_modal" name="titulo" id="titulo" maxlength="100">
+                    <input type="text" class="input_modal" name="titulo" id="titulo" maxlength="25">
                 </div>
 
                 <div class="campo_input_modal">
                     <h5>Insira a descrição do video:</h5>
-                    <textarea name="descricao" id="textarea_descricao" class="input_modal" maxlength="250"
+                    <textarea name="descricao" id="textarea_descricao" class="input_modal" maxlength="100"
                         rows="5"> </textarea>
                 </div>
 
                 <div class="campo_input_modal">
                     <h5>Coloque o link do seu vídeo:</h5>
                     <input type="text" name="url" oninput="preview()" class="input_modal" id="textarea_url"
-                        maxlength="250" rows="5">
+                        maxlength="30" rows="5">
                 </div>
 
                 <div id="preview_modal">
@@ -281,7 +300,7 @@
                         <div class="texto_post">
                             <h1>${publicacao.titulo}</h1>
                             <h5>Enviado por:${publicacao.nome}</h5>
-                            <p>Descrição: <b>${publicacao.descricao}</p>
+                            <p><b>Descrição:</b>${publicacao.descricao}</p>
                         </div>
                         <iframe width="560" height="315"
                             src="https://www.youtube.com/embed/${publicacao.url}?si=a7EoJRGlT7wpDLNJ"
@@ -310,40 +329,42 @@
         modal.classList.add('abrir')
 
         modal.addEventListener('click', (e) => {
-            if (e.target.id == 'btnFechar' || e.target.id == 'janela-modal') {
+            if (e.target.id == 'btnFecharDash' || e.target.id == 'janela-modal') {
                 modal.classList.remove('abrir')
             }
         })
+
+        var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                datasets: [{
+                    label: 'Nivel de Gás Natural',
+                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                    borderWidth: 1,
+                    backgroundColor: 'orange',
+                    borderColor: 'orange',
+                }]
+            }
+
+        });
+
+        var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                datasets: [{
+                    label: 'Nivel de Gás Natural',
+                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                    borderWidth: 1,
+                    backgroundColor: 'orange',
+                    borderColor: 'orange',
+                }]
+            }
+
+        });
+
     }
 
-    var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-            datasets: [{
-                label: 'Nivel de Gás Natural',
-                data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                borderWidth: 1,
-                backgroundColor: 'red',
-                borderColor: 'red',
-            }]
-        }
-
-    });
-
-    var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-            datasets: [{
-                label: 'Nivel de Gás Natural',
-                data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                borderWidth: 1,
-                backgroundColor: 'red',
-                borderColor: 'red',
-            }]
-        }
-
-    });
 
 </script>
