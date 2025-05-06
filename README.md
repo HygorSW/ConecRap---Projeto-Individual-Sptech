@@ -33,6 +33,9 @@ Criar uma aplicação web que promova a cultura Hip-Hop, com foco em educação,
 ![Seção de História](./Prototipo/prints/sobre01.png)
 ![Seção de História](./Prototipo/prints/sobre02.png)
 
+### Tela de posts
+![Feed Posts](./Prototipo/prints/vivencias01.png)
+![Dash Posts](./Prototipo/prints/dash-post.png)
 
 ### Página de Login e Cadastro
 ![Login](./Prototipo/prints/login.png)
