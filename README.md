@@ -27,7 +27,7 @@ Criar uma aplicação web que promova a cultura Hip-Hop, com foco em educação,
 ### Página Inicial
 ![Página Inicial](./Prototipo/prints/home01.png)
 ![Página Inicial](./Prototipo/prints/home02.png)
-![Página Inicial](./Prototipo/prints/home03.png)
+![Página Inicial](./Prototipo/prints/dev.png)
 
 ### Seção de História
 ![Seção de História](./Prototipo/prints/sobre01.png)
