@@ -1,0 +1,60 @@
+.main {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+/* containers */
+
+.dashboard {
+    border: 1px solid white;
+    background-color: transparent;
+    height: 80%;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.container_dashboard {
+    width: 80%;
+    background-color: #0f0f0f;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.container_graficos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    height: 100%;
+}
+
+.container_indicadores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    height: 100%;
+}
+
+.container_historico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
+    height: 100%;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - ConecRap</title>
+    <link rel="stylesheet" href="../css/quiz/dashboard.css">
+    <link rel="stylesheet" href="../css/quiz/navQuiz.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="main"> <!-- Div principal -->
+        <div class="navbar">
+            <div class="logo_nav">
+                <img src="../assets/imgsConecRap/LogoSemFundo.png" alt="">
+            </div>
+
+            <div class="btnDiv">
+                <a href="./quiz.html" class="btnNavbar">
+                    <img src="../assets/imgsConecRap/quiz/jogos_icon.png" alt="">
+                    <h5>Jogos</h5>
+                </a>
+                <div class="btnNavbar">
+                    <img src="../assets/imgsConecRap/quiz/dash_icon.png" alt="">
+                    <h5>Dashboard</h5>
+                </div>
+            </div>
+
+            <div class="logoutDiv">
+                <a  href="../index.html" class="btnNavbar">
+                    <img src="../assets/imgsConecRap/quiz/logout_icon.png" alt="">
+                    <h5>Logout</h5>
+                </a>
+            </div>
+
+
+        </div> <!-- fim Div principal -->
+        <div class="container_dashboard">
+            <h1>Estatísticas Gerais</h1>
+            <div class="dashboard">
+                <div class="container_graficos">
+                    <div class="grafico_Dash">
+                        <canvas id="graficoCategoria"></canvas>
+                    </div>
+
+                    <div class="grafico_Dash">
+                        <canvas id="graficoBarra"></canvas>
+                    </div>
+                </div>
+                <div class="container_indicadores">
+                    <div class="indicador">
+                        <h5>Média de acertos por quiz:</h5>
+                    </div>
+                    <div class="indicador">
+                        <h5>Total de vezes que você obteve 100%</h5>
+                    </div>
+                </div>
+                <div class="container_historico">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Campo 1</th>
+                                <th>Campo 2</th>
+                                <th>Campo 3</th>
+                                <th>Campo 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Valor 1</td>
+                                <td>Valor 2</td>
+                                <td>Valor 3</td>
+                                <td>Valor 4</td>
+                            </tr>
+                            <tr>
+                                <td>Valor 5</td>
+                                <td>Valor 6</td>
+                                <td>Valor 7</td>
+                                <td>Valor 8</td>
+                            </tr>
+                            <tr>
+                                <td>Valor 9</td>
+                                <td>Valor 10</td>
+                                <td>Valor 11</td>
+                                <td>Valor 12</td>
+                            </tr>
+                            <tr>
+                                <td>Valor 13</td>
+                                <td>Valor 14</td>
+                                <td>Valor 15</td>
+                                <td>Valor 16</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    // grafico barra
+    var graficoBarra = new Chart(document.getElementById('graficoBarra').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+            datasets: [{
+                label: 'Nível de Gás Natural',
+                data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                borderWidth: 2,
+                borderColor: 'orange',
+                backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    // grafico pizza
+    var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['Erros', 'Acertos'],
+            datasets: [{
+                label: 'questões',
+                data: [2, 8],
+                backgroundColor: [
+                    'orange', '#111827',
+                ],
+                borderColor: '#fff',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Distribuição de acertos'
+                }
+            }
+        }
+    });
+</script>
