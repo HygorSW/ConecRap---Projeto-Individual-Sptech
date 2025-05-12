@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+require('dotenv').config();
 
 // CONEXÃO DO BANCO MYSQL SERVER
 var mySqlConfig = {

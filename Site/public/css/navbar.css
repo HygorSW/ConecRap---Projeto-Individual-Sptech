@@ -5,6 +5,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
+
 /* Navbar css */
 .navbar {
     width: 90%;
@@ -26,6 +27,8 @@
 
 a {
     text-decoration: none;
+    color: white;
+    transition: 0.5s;
 }
 
 
@@ -52,17 +55,6 @@ ul.sessoesNav {
     align-items: center;
 }
 
-.btnNav {
-    position: relative;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    height: 50%;
-    display: flex;
-    align-items: center;
-    width: 100px;
-    justify-content: center;
-}
 
 
 .liNav {
@@ -76,6 +68,10 @@ ul.sessoesNav {
     justify-content: center;
     flex-direction: column;
 
+}
+
+.liNav :hover{
+    color: orange;
 }
 
 .liNav::after {
@@ -100,14 +96,27 @@ ul.sessoesNav {
 
 }
 
+
+.btnNav {
+    position: relative; /* retem todos o elementos div, evita q o absolute sair da div */
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    height: 50%;
+    display: flex; /* display flex para manipular os elementos*/
+    align-items: center;  /* display flex para centralizar os elementos*/
+    width: 100px;
+    justify-content: center;  /* display flex para centralizar os elementos*/
+}
+
 .btnNav::after {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 3px;
+    content: ' ';     /* para aparecer a "div"  */
+    position: absolute;/* para posicionar a "div"  */
+    width: 0; /* para dimensionar a "div"  */
+    height: 3px; /* para dimensionar a "div"  */
     background-color: white;
-    bottom: 0px;
-    transition: 0.5s;
+    bottom: 0px; /* para posicionar a "div"  */
+    transition: 0.5s; /* para "animar" a "div"  */
 }
 
 .btnNav:hover::after {
