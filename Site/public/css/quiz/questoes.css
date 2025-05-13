@@ -12,25 +12,37 @@
 .quiz {
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url(../../assets/imgsConecRap/backgroundHome.png);
+    background-image: url(../../assets/imgsConecRap/quiz/background/hiphop_back.png);
     height: 80%;
     width: 95%;
     display: flex;
-    justify-content: baseline;
+    justify-content: center;
     position: relative;
     align-items: center;
     flex-direction: column;
+    border-radius: 15px;
 }
 
 
+.jogoContainer {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: 1s;
+}
+
 .container_quiz {
     width: 80%;
-    background-color: #0f0f0f;
+    background-color: orange;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+}
+
+.back {
+    background: orange;
 }
 
 .btnStart {
@@ -45,6 +57,8 @@
     font-size: 24px;
     font-weight: bold;
     border-radius: 15px;
+    animation: question 1s;
+    cursor: pointer;
 }
 
 /* quiz elementos */
@@ -81,6 +95,121 @@
     cursor: pointer;
 }
 
-.btnQuiz:hover{
+.btnQuiz:hover {
     transform: scale(1.1);
+}
+
+
+.btnStart {
+    position: absolute;
+    bottom: 40px;
+    height: 10%;
+    width: 20%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+
+}
+
+#btnDerrota {
+    bottom: 30%;
+}
+
+/* Perdeu */
+
+.DerrotaLeft {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.DerrotaRight {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.DerrotaRight img {
+    height: 100%;
+    width: 100%;
+}
+
+.derrotaDiv {
+    content: " ";
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    position: absolute;
+    background-color: orange;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.resultadoDiv {
+    content: " ";
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    position: absolute;
+    background-color: black;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-size: 40px;
+}
+
+.ativo {
+    display: flex;
+}
+
+/* resultado */
+
+.btnResultado {
+    height: 100%;
+    width: 20%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.rowBtnResultado {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* animações */
+
+@keyframes question {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -20px, -5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
 }
