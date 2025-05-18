@@ -33,16 +33,20 @@
 
 .container_quiz {
     width: 80%;
-    background-color: orange;
+    background-color: #262626;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    flex-direction: column;
+    gap: 10px;
 }
 
+
+
 .back {
-    background: orange;
+    background: black;
 }
 
 .btnStart {
@@ -212,4 +216,30 @@
         transform: translate3d(0, 0, 0);
     }
 
+}
+
+/* progresso */
+
+.barra {
+    content: " ";
+    height: 20px;
+    background-color: green;
+    border-radius: 15px;
+}
+
+.progresso {
+    height: 10%;
+    width: 94%;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    background: black;
+    border-radius: 15px;
+    padding: 10px;
+    position: relative;
+}
+
+.progressoIndice {
+    position: absolute;
+    right: 5%;
 }

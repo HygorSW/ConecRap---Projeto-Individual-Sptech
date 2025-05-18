@@ -38,6 +38,14 @@
 
         </div> <!-- fim Div principal -->
         <div class="container_quiz">
+
+            <div class="progresso" id="progressoBar">
+                <div class="barra" id="barrinhaDeProgresso"></div>
+                <div class="progressoIndice">
+                    <h1 id="indiceBar"></h1>
+                </div>
+            </div>
+
             <div class="quiz">
                 <div class="jogoContainer" id="idjogoContainer">
                     <div class="title_row" id="infoQuestao">
@@ -68,13 +76,15 @@
                     </div>
 
                 </div>
-                <button onclick="progresso = 0,   apresentarQuestoes()" id="btnIniciarQuiz" class="btnStart">
+                <button onclick="progresso = 0, inicioQuiz(),   apresentarQuestoes()" id="btnIniciarQuiz" class="btnStart">
                     INICIAR</button>
 
                 <div class="derrotaDiv" id="youloose">
                     <div class="DerrotaLeft">
                         <h1>VOCÊ PERDEU</h1>
                         <button onclick="tentarNovamente()" class="btnStart" id="btnDerrota">RECOMEÇAR</button>
+                        <div id="resultadoLoose"></div>
+
                     </div>
                     <div class="DerrotaRight">
                         <img src="../assets/imgsConecRap/quiz/eu_perdeu.png" alt="">
@@ -84,10 +94,10 @@
 
                 <div class="resultadoDiv" id="miniDash">
                     <div class="rowTitle">
-                        <h1>RESULTADO</h1>
+                        <h1>PARABÉNS!</h1>
                     </div>
                     <div class="containerResultado">
-                        <h1>3/5</h1>
+                        <h1 id="resultadoText"></h1>
                     </div>
                     <div class="rowBtnResultado">
                         <button onclick="tentarNovamente()" class="btnResultado">RECOMEÇAR</button>
@@ -118,6 +128,13 @@
     var alternativaResp;
     var alternativaSelecionada;
     var progresso = 0;
+    var barraWidth = 0;
+    var acertos = 0;
+    var erros = 0;
+    var totalAcertos = 0;
+
+
+
 
 
 
@@ -128,7 +145,7 @@
             .then(data => {
                 listaDeQuestoes = data; // Popula a listaDeQuestoes com as questões do banco
 
-                if (progresso == listaDeQuestoes[listaDeQuestoes.length]) {
+                if (progresso == listaDeQuestoes[listaDeQuestoes.length + 1]) {
                     progresso = progresso = 0;
                 } else {
                     preencherHTMLcomQuestaoAtual(progresso); // Exibe a primeira questão
@@ -150,6 +167,9 @@
         document.getElementById("segundaOpcao").innerHTML = questaoAtual.alternativaB;
         document.getElementById("terceiraOpcao").innerHTML = questaoAtual.alternativaC;
         document.getElementById("quartaOpcao").innerHTML = questaoAtual.alternativaD;
+        if (index == listaDeQuestoes.length - 1) {
+            alert('Ultima questão!')
+        }
     }
 
 
@@ -159,7 +179,9 @@
     function apresentarQuestoes() {
         idjogoContainer.style.opacity = 1;
         btnIniciarQuiz.style.opacity = 0;
-        idjogoContainer.classList.add('back')
+        barrinhaDeProgresso.style.width = 10;
+        progressoBar.style.display = 'flex';
+        indiceBar.innerHTML = `${progresso}/${listaDeQuestoes.length}`;
     }
 
     function responder() {
@@ -170,26 +192,33 @@
                 document.getElementById(alternativaSelecionada).style.background = 'green';
 
                 setTimeout(() => {
-
-                    carregarQuestoes();
+                    progresso = progresso + 1;
+                    preencherHTMLcomQuestaoAtual(progresso);
                     primeiraOpcao.style.background = 'white';
                     segundaOpcao.style.background = 'white';
                     terceiraOpcao.style.background = 'white';
                     quartaOpcao.style.background = 'white';
 
-                    progresso = progresso + 1;
+
+                    barraWidth = (progresso * 100) / listaDeQuestoes.length;
+                    barrinhaDeProgresso.style.width = `${barraWidth}%`;
+                    indiceBar.innerHTML = `${progresso}/${listaDeQuestoes.length}`;
+                    acertos = acertos + 1;
+
+
                 }, 100);
 
             } else {
                 document.getElementById(alternativaSelecionada).style.background = 'red';
                 setTimeout(() => {
-                    carregarQuestoes();
-                    primeiraOpcao.style.background = 'white';
-                    segundaOpcao.style.background = 'white';
-                    terceiraOpcao.style.background = 'white';
-                    quartaOpcao.style.background = 'white';
-                    progresso = progresso = 0;
+
                     youloose.classList.add('ativo')
+                    resultadoLoose.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`
+
+                    progressoBar.style.display = 'none';
+                    erros = erros + 1;
+                    cadastrarTentativa()
+
                 }, 100);
 
             }
@@ -198,7 +227,11 @@
         } else {
             setTimeout(() => {
                 miniDash.classList.add('ativo')
-                progresso = progresso = 0;
+                opcoes.style.display = 'none'
+                progressoBar.style.display = 'none';
+                acertos = acertos + 1;
+                resultadoText.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`
+                cadastrarTentativa();
             }, 100);
 
         }
@@ -209,6 +242,79 @@
         // atualiza a página
         window.location.reload()
     }
+
+
+
+
+    function cadastrarTentativa() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        totalAcertos = acertos;
+        var totalErros = listaDeQuestoes.length - totalAcertos;
+
+        fetch(`/quiz/tentativa/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                acertosServer: totalAcertos,
+                errosServer: totalErros,
+
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    window.alert("tentativa realizada com sucesso pelo usuario de ID: " + idUsuario + "!");
+                    // window.location = "./questoes.html";
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar o quiz! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+
+    }
+
+
+
+    function inicioQuiz() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/quiz/inicio/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    window.alert("tentativa realizada com sucesso pelo usuario de ID: " + idUsuario + "!");
+                    // window.location = "./questoes.html";
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar o quiz! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+
+    }
+
+
+
+
 
 
 </script>

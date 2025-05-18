@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body onload="carregarMétricas()">
     <div class="main"> <!-- Div principal -->
         <div class="navbar">
             <div class="logo_nav">
@@ -57,11 +57,9 @@
                             <img style="height: 50px; width: 50px;"
                                 src="../assets/imgsConecRap/home/icons/icon_microfone.png" alt="">
                         </div>
-                        <div class="value_kpi">
-                            0/10
+                        <div id="value_kpi">
                         </div>
-                        <div class="desc_kpi">
-                            <p>0% de acertos</p>
+                        <div id="desc_kpi">
                         </div>
 
                     </div>
@@ -71,11 +69,9 @@
                             <img style="height: 50px; width: 50px;"
                                 src="../assets/imgsConecRap/home/icons/icon_microfone.png" alt="">
                         </div>
-                        <div class="value_kpi">
-                            0/10
+                        <div id="value_kpi_2">
                         </div>
-                        <div class="desc_kpi">
-                            <p>0% de acertos</p>
+                        <div id="desc_kpi_2">
                         </div>
                     </div>
                 </div>
@@ -89,31 +85,8 @@
                                 <th>Tempo</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>3/10</td>
-                                <td>10/04/2025</td>
-                                <td>2m 45s</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>3/10</td>
-                                <td>10/04/2025</td>
-                                <td>2m 45s</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>3/10</td>
-                                <td>10/04/2025</td>
-                                <td>2m 45s</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>3/10</td>
-                                <td>10/04/2025</td>
-                                <td>2m 45s</td>
-                            </tr>
+                        <tbody id="tabelaTentativas">
+
                         </tbody>
                     </table>
                 </div>
@@ -126,58 +99,123 @@
 </html>
 
 <script>
+    var listaTentativas = [];
+    var errosGraficos = 0;
+    var acertosGraficos = 0
 
-    // grafico barra
-    var graficoBarra = new Chart(document.getElementById('graficoBarra').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-            datasets: [{
-                label: 'Nível de Gás Natural',
-                data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                borderWidth: 2,
-                borderColor: 'orange',
-                backgroundColor: 'rgba(255, 165, 0, 0.2)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    // Função para carregar as métricas
+    function carregarMétricas() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch("/quiz/dashboard")
+            .then(response => response.json())
+            .then(data => {
+                listaTentativas = data; // Popula as metricas
+                preencherTabela();
+
+            })
+            .catch(error => {
+                console.error("Erro ao carregar as tentativas:", error);
+            });
+    }
+
+    // Função para lista de tentativas na página
+    function preencherTabela() {
+        document.getElementById("tabelaTentativas").innerHTML = ""; // limpa antes
+        var totalDeacertos = 0;
+        var totalPlatinou = 0;
+        acertosGraficos = listaTentativas[listaTentativas.length - 1].acertos;
+        errosGraficos = listaTentativas[listaTentativas.length - 1].qtd_questoes - listaTentativas[listaTentativas.length - 1].acertos;
+
+
+        for (var contador = listaTentativas.length - 1; contador >= 0; contador--) {
+
+            var tentativa_atual = listaTentativas[contador];
+            console.log(tentativa_atual); // Verifique se as questões estão sendo carregadas corretamente
+            // Aqui você pode criar dinamicamente uma linha na tabela
+            var novaLinha = `
+            <tr>
+                <td>${tentativa_atual.idResultado}</td>
+                <td>${tentativa_atual.acertos}/${tentativa_atual.qtd_questoes}</td>
+                <td>${(new Date(tentativa_atual.fim)).toISOString().split('T')[0].split('-').reverse().join('/')}</td>
+                <td>${tentativa_atual.tempo}</td>
+            </tr>
+        `;
+            document.getElementById("tabelaTentativas").innerHTML += novaLinha;
+            // graficos
+            totalDeacertos = totalDeacertos + tentativa_atual.acertos;
+
+            if (tentativa_atual.acertos == tentativa_atual.qtd_questoes) {
+                totalPlatinou++;
             }
         }
-    });
 
-
-    // grafico pizza
-    var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
-        type: 'pie',
-        data: {
-            labels: ['Erros', 'Acertos'],
-            datasets: [{
-                label: 'questões',
-                data: [2, 8],
-                backgroundColor: [
-                    'orange', '#111827',
-                ],
-                borderColor: '#fff',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'Distribuição de acertos'
+        // grafico pizza
+        var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ['Acertos', 'Erros'],
+                datasets: [{
+                    label: 'questões',
+                    data: [acertosGraficos, errosGraficos],
+                    backgroundColor: [
+                        'orange', '#111827',
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribuição de acertos (última tentativa)'
+                    }
                 }
             }
-        }
-    });
+        });
+
+
+
+
+
+        // grafico barra
+        var graficoBarra = new Chart(document.getElementById('graficoBarra').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                datasets: [{
+                    label: 'Quiz Tentativas',
+                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                    borderWidth: 2,
+                    borderColor: 'orange',
+                    backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var mediaAcertos = totalDeacertos / listaTentativas.length;
+        document.getElementById("value_kpi").innerHTML = `${mediaAcertos.toFixed(1)}/${listaTentativas[listaTentativas.length - 1].qtd_questoes}`;
+        var porcentagem = (mediaAcertos / listaTentativas[listaTentativas.length - 1].qtd_questoes) * 100;
+        document.getElementById("desc_kpi").innerHTML = `<p>${porcentagem.toFixed(0)}% de acertos</p>`;
+        document.getElementById("value_kpi_2").innerHTML = `${totalPlatinou}`
+    }
+
+
+
+
+
+
 </script>
