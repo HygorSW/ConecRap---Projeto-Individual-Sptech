@@ -1,7 +1,7 @@
 const database = require("../database/config");
 
 // dashboard
-function buscarMetricas() {
+function buscarMetricas(idUsuario) {
     console.log("ACESSEI O QUIZ  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMetricas()");
     var instrucaoSql = `
 
@@ -19,7 +19,7 @@ FROM Tentativas AS t
 JOIN usuario AS u ON t.fkUsuario = u.idUsuario
 JOIN resultado AS r ON r.fkTentativa = t.idTentativa
 JOIN quiz AS q ON t.fkQuiz = q.idQuiz
-where u.idUsuario = 1;
+where u.idUsuario = ${idUsuario};
 
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -39,14 +39,15 @@ function buscarQuestoes() {
 
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function registrarTentativa(totalAcertos, totalErros) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", totalAcertos, totalErros);
+function registrarTentativa(idUsuario, totalAcertos, totalErros, tentativaFK) {
 
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", tentativaFK, idUsuario, totalAcertos, totalErros);
+
+
     var instrucaoSql = `    
-        INSERT INTO Resultado (fkTentativa, totalAcertos, totalErros, dataHoraFim ) VALUES (1, '${totalAcertos}', '${totalErros}', NOW());
+        INSERT INTO Resultado (fkTentativa, totalAcertos, totalErros, dataHoraFim ) VALUES (${tentativaFK}, '${totalAcertos}', '${totalErros}', NOW());
     `;
+
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -63,7 +64,23 @@ function iniciarQuiz(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+
+function buscarTentativaFK(idUsuario) {
+    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
+    //  e na ordem de inserção dos dados.
+
+    var instrucaoSql = `  
+    SELECT idTentativa 
+FROM Tentativas 
+WHERE fkUsuario = ${idUsuario} 
+ORDER BY dataHora DESC 
+LIMIT 1;
+`
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    buscarQuestoes, registrarTentativa, iniciarQuiz, buscarMetricas
+    buscarQuestoes, registrarTentativa, iniciarQuiz, buscarMetricas, buscarTentativaFK
 }
 

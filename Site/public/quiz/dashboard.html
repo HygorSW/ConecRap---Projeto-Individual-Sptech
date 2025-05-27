@@ -19,7 +19,7 @@
             </div>
 
             <div class="btnDiv">
-                <a href="./quiz.html" class="btnNavbar">
+                <a href="./questoes.html" class="btnNavbar">
                     <img src="../assets/imgsConecRap/quiz/jogos_icon.png" alt="">
                     <h5>Jogos</h5>
                 </a>
@@ -32,7 +32,7 @@
             <div class="logoutDiv">
                 <a href="../index.html" class="btnNavbar">
                     <img src="../assets/imgsConecRap/quiz/logout_icon.png" alt="">
-                    <h5>Logout</h5>
+                    <h5>Voltar</h5>
                 </a>
             </div>
 
@@ -42,12 +42,17 @@
             <h1>Estatísticas Gerais</h1>
             <div class="dashboard">
                 <div class="container_graficos">
+                    <p>Ultima Tentativa</p>
                     <div class="grafico_Dash">
                         <canvas id="graficoCategoria"></canvas>
+                        <div id="pontuacaoGrafico">
+                        </div>
                     </div>
 
                     <div class="grafico_Dash">
-                        <canvas id="graficoBarra"></canvas>
+                        <p id="graficoTitulo">Distribuição de acertos</p>
+                        <canvas style="position: absolute; bottom: 50px;" id="graficoBarra"></canvas>
+                        <p id="graficoLabel">Tentativas</p>
                     </div>
                 </div>
                 <div class="container_indicadores">
@@ -58,20 +63,23 @@
                                 src="../assets/imgsConecRap/home/icons/icon_microfone.png" alt="">
                         </div>
                         <div id="value_kpi">
+                            0/0
                         </div>
                         <div id="desc_kpi">
+                            <p>0% de acertos</p>
                         </div>
 
                     </div>
                     <div class="indicador">
                         <div class="title_indicador">
-                            <h5>Total de vezes que você obteve 100%</h5>
+                            <h5>Número de vezes com pontuação máxima:</h5>
                             <img style="height: 50px; width: 50px;"
                                 src="../assets/imgsConecRap/home/icons/icon_microfone.png" alt="">
                         </div>
                         <div id="value_kpi_2">
+                            0
                         </div>
-                        <div id="desc_kpi_2">
+                        <div id="desc_kpi_3">
                         </div>
                     </div>
                 </div>
@@ -100,13 +108,16 @@
 
 <script>
     var listaTentativas = [];
+    var dataGrafico = [];
+    var timeGrafico = [];
+
     var errosGraficos = 0;
     var acertosGraficos = 0
 
     // Função para carregar as métricas
     function carregarMétricas() {
         var idUsuario = sessionStorage.ID_USUARIO;
-        fetch("/quiz/dashboard")
+        fetch(`/quiz/dashboard/${idUsuario}`)
             .then(response => response.json())
             .then(data => {
                 listaTentativas = data; // Popula as metricas
@@ -133,13 +144,13 @@
             console.log(tentativa_atual); // Verifique se as questões estão sendo carregadas corretamente
             // Aqui você pode criar dinamicamente uma linha na tabela
             var novaLinha = `
-            <tr>
-                <td>${tentativa_atual.idResultado}</td>
-                <td>${tentativa_atual.acertos}/${tentativa_atual.qtd_questoes}</td>
-                <td>${(new Date(tentativa_atual.fim)).toISOString().split('T')[0].split('-').reverse().join('/')}</td>
-                <td>${tentativa_atual.tempo}</td>
-            </tr>
-        `;
+                <tr>
+                    <td>${tentativa_atual.idResultado}</td>
+                    <td>${tentativa_atual.acertos}/${tentativa_atual.qtd_questoes}</td>
+                    <td>${(new Date(tentativa_atual.fim)).toISOString().split('T')[0].split('-').reverse().join('/')}</td>
+                    <td>${tentativa_atual.tempo}</td>
+                </tr>
+            `;
             document.getElementById("tabelaTentativas").innerHTML += novaLinha;
             // graficos
             totalDeacertos = totalDeacertos + tentativa_atual.acertos;
@@ -151,7 +162,7 @@
 
         // grafico pizza
         var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: ['Acertos', 'Erros'],
                 datasets: [{
@@ -179,6 +190,18 @@
         });
 
 
+        dataGrafico = [];
+        timeGrafico = [];
+        for (var i = 1; i <= Math.min(listaTentativas.length, 10); i++) {
+
+            barraAtual = listaTentativas[listaTentativas.length - i]
+            dataGrafico.unshift(barraAtual.acertos);
+            // dataGrafico.push(barraAtual.acertos)
+            const dataOriginal = ` ${barraAtual.idResultado}º`;
+            // const dataFormatada = new Date(dataOriginal).toLocaleDateString('pt-BR');
+            timeGrafico.unshift(dataOriginal)
+
+        }
 
 
 
@@ -186,31 +209,49 @@
         var graficoBarra = new Chart(document.getElementById('graficoBarra').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                labels: timeGrafico,
                 datasets: [{
-                    label: 'Quiz Tentativas',
-                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                    label: 'Acertos',
+                    data: dataGrafico,
                     borderWidth: 2,
                     borderColor: 'orange',
                     backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                    Color: 'white',
                     fill: true,
                     tension: 0.3
                 }]
             },
             options: {
                 scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Cor dos textos no eixo X
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        ticks: {
+                            color: 'white' // Cor dos textos no eixo Y
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Cor da legenda
+                        }
                     }
                 }
             }
         });
+
 
         var mediaAcertos = totalDeacertos / listaTentativas.length;
         document.getElementById("value_kpi").innerHTML = `${mediaAcertos.toFixed(1)}/${listaTentativas[listaTentativas.length - 1].qtd_questoes}`;
         var porcentagem = (mediaAcertos / listaTentativas[listaTentativas.length - 1].qtd_questoes) * 100;
         document.getElementById("desc_kpi").innerHTML = `<p>${porcentagem.toFixed(0)}% de acertos</p>`;
         document.getElementById("value_kpi_2").innerHTML = `${totalPlatinou}`
+
+        document.getElementById("pontuacaoGrafico").innerHTML = `<h1>${listaTentativas[listaTentativas.length - 1].acertos}/${listaTentativas[listaTentativas.length - 1].qtd_questoes}</h1>`;
     }
 
 

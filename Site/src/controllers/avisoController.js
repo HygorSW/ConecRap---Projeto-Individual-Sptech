@@ -14,6 +14,33 @@ function listar(req, res) {
     });
 }
 
+
+function contarCategoria(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    avisoModel.contarCategoria(idUsuario)
+        .then(
+            function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!");
+                }
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "Houve um erro ao buscar os avisos: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+
 function listarPorUsuario(req, res) {
     var idUsuario = req.params.idUsuario;
 
@@ -62,12 +89,15 @@ function pesquisarDescricao(req, res) {
 
 function publicar(req, res) {
     var titulo = req.body.titulo;
+    var categoria = req.body.categoria;
     var descricao = req.body.descricao;
     var url = req.body.url;
     var idUsuario = req.params.idUsuario;
 
     if (titulo == undefined) {
         res.status(400).send("O título está indefinido!");
+    } else if (categoria == undefined) {
+        res.status(400).send("A categoria está indefinido!");
     } else if (descricao == undefined) {
         res.status(400).send("A descrição está indefinido!");
     } else if (url == undefined) {
@@ -76,7 +106,7 @@ function publicar(req, res) {
     else if (idUsuario == undefined) {
         res.status(403).send("O id do usuário está indefinido!");
     } else {
-        avisoModel.publicar(titulo, descricao, idUsuario, url)
+        avisoModel.publicar(titulo, categoria, descricao, idUsuario, url)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -136,5 +166,6 @@ module.exports = {
     pesquisarDescricao,
     publicar,
     editar,
-    deletar
+    deletar,
+    contarCategoria
 }

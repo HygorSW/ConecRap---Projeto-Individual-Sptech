@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/home.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
+    <script src="../js/sessao.js"></script>
 
 </head>
 
@@ -21,10 +22,9 @@
                 <ul class="sessoesNav">
                     <li class="liNav"><a href="./index.html">Home</a></li>
                     <li class="liNav"><a href="./Hiphop.html">Sobre Hiphop</a></li>
-                    <li class="liNav"><a href="./vivencias.html">Vivéncias</a></li>
-                    <li class="liNav"><a href="./quiz/quiz.html">Quiz</a></li>
+                    <li class="liNav"><a href="./vivencias.html">Vivências</a></li>
+                    <li class="liNav"><a onclick="acessarQuiz()">Quiz</a></li>
                 </ul>
-
                 <div class="btnsContainerNav">
                     <a href="./login.html" class="btnNav">LOGIN</a>
                     <a href="./cadastro.html" class="btnNav" id="btnCadastro">CADASTRO</a>
@@ -33,14 +33,14 @@
             </div> <!-- Fim componente navbar -->
 
             <div class="tituloHome"> <!--  componente texto   -->
-                <h1>Compartilhe suas vivéncias</h1>
+                <h1>Compartilhe suas Vivências</h1>
                 <h1>Fortaleça a cultura</h1>
                 <h1>Viva o <span>Hip-Hop</span> </h1>
             </div> <!-- Fim componente texto -->
 
             <div class="btnsHome"> <!--  componente butões home  -->
-                <a class="btnAcao " href="./vivencias.html">Vivéncias</a>
-                <a class="btnAcao" href="./quiz/quiz.html" >Quiz</a>
+                <a class="btnAcao " href="./vivencias.html">Vivências</a>
+                <a class="btnAcao" onclick="acessarQuiz()">Quiz</a>
                 <a class="btnAcao" href="./Hiphop.html">Historia</a>
                 <a class="btnAcao" href="./login.html">Login</a>
             </div> <!-- Fim componente butões home -->

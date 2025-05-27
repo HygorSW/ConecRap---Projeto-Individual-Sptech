@@ -31,7 +31,7 @@
             <div class="logoutDiv">
                 <a href="../index.html" class="btnNavbar">
                     <img src="../assets/imgsConecRap/quiz/logout_icon.png" alt="">
-                    <h5>Logout</h5>
+                    <h5>Voltar</h5>
                 </a>
             </div>
 
@@ -76,7 +76,8 @@
                     </div>
 
                 </div>
-                <button onclick="progresso = 0, inicioQuiz(),   apresentarQuestoes()" id="btnIniciarQuiz" class="btnStart">
+                <button onclick="progresso = 0, inicioQuiz(),   apresentarQuestoes()" id="btnIniciarQuiz"
+                    class="btnStart">
                     INICIAR</button>
 
                 <div class="derrotaDiv" id="youloose">
@@ -124,6 +125,7 @@
     let certas = 0
     let erradas = 0
     let quantidadeDeQuestoes = listaDeQuestoes.length
+    var TentativaFk = 0;
     // quiz global
     var alternativaResp;
     var alternativaSelecionada;
@@ -185,7 +187,7 @@
     }
 
     function responder() {
-        if (progresso != listaDeQuestoes.length - 1) {
+        if (progresso < listaDeQuestoes.length) {
 
             const questaoAtual = listaDeQuestoes[progresso];
             if (alternativaResp == questaoAtual.alternativa_correta) {
@@ -193,49 +195,42 @@
 
                 setTimeout(() => {
                     progresso = progresso + 1;
-                    preencherHTMLcomQuestaoAtual(progresso);
-                    primeiraOpcao.style.background = 'white';
-                    segundaOpcao.style.background = 'white';
-                    terceiraOpcao.style.background = 'white';
-                    quartaOpcao.style.background = 'white';
 
+                    if (progresso < listaDeQuestoes.length) {
+                        preencherHTMLcomQuestaoAtual(progresso);
+                        primeiraOpcao.style.background = 'white';
+                        segundaOpcao.style.background = 'white';
+                        terceiraOpcao.style.background = 'white';
+                        quartaOpcao.style.background = 'white';
 
-                    barraWidth = (progresso * 100) / listaDeQuestoes.length;
-                    barrinhaDeProgresso.style.width = `${barraWidth}%`;
-                    indiceBar.innerHTML = `${progresso}/${listaDeQuestoes.length}`;
-                    acertos = acertos + 1;
-
-
+                        barraWidth = (progresso * 100) / listaDeQuestoes.length;
+                        barrinhaDeProgresso.style.width = `${barraWidth}%`;
+                        indiceBar.innerHTML = `${progresso}/${listaDeQuestoes.length}`;
+                        acertos = acertos + 1;
+                    } else {
+                        // chegou ao fim com sucesso
+                        miniDash.classList.add('ativo');
+                        opcoes.style.display = 'none';
+                        progressoBar.style.display = 'none';
+                        acertos = acertos + 1;
+                        resultadoText.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`;
+                        cadastrarTentativa();
+                    }
                 }, 100);
 
             } else {
                 document.getElementById(alternativaSelecionada).style.background = 'red';
                 setTimeout(() => {
-
-                    youloose.classList.add('ativo')
-                    resultadoLoose.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`
+                    youloose.classList.add('ativo');
+                    resultadoLoose.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`;
 
                     progressoBar.style.display = 'none';
                     erros = erros + 1;
-                    cadastrarTentativa()
-
+                    cadastrarTentativa();
                 }, 100);
-
             }
 
-
-        } else {
-            setTimeout(() => {
-                miniDash.classList.add('ativo')
-                opcoes.style.display = 'none'
-                progressoBar.style.display = 'none';
-                acertos = acertos + 1;
-                resultadoText.innerHTML = `você acertou: ${acertos}/${listaDeQuestoes.length}`
-                cadastrarTentativa();
-            }, 100);
-
         }
-
     }
 
     function tentarNovamente() {
@@ -247,6 +242,12 @@
 
 
     function cadastrarTentativa() {
+        buscarFK();
+        if (tentativaFk === null) {
+            window.alert("Erro ao carregar a tentativa FK. Tente novamente.");
+            return false; // Interrompe a execução se tentativaFk não foi carregada
+        }
+
         var idUsuario = sessionStorage.ID_USUARIO;
         totalAcertos = acertos;
         var totalErros = listaDeQuestoes.length - totalAcertos;
@@ -259,6 +260,7 @@
             body: JSON.stringify({
                 acertosServer: totalAcertos,
                 errosServer: totalErros,
+                tentativaServer: tentativaFk,
 
             }),
         })
@@ -308,11 +310,39 @@
                 console.log(`#ERRO: ${resposta}`);
             });
 
-        return false;
 
+        return false;
     }
 
 
+    function buscarFK(callback) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/quiz/fk/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    tentativaFk = data[0].idTentativa; // Pega o valor da tentativa
+                    console.log("TentativaFk carregada:", tentativaFk);
+                    if (callback) callback(tentativaFk); // Chama o callback com o valor
+                } else {
+                    console.error("Nenhuma tentativa encontrada.");
+                    if (callback) callback(null); // Chama o callback com null
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao carregar a FK:", error);
+                if (callback) callback(null); // Chama o callback com null
+            });
+    }
+
+    buscarFK(function (tentativaFk) {
+        if (tentativaFk) {
+            console.log("Valor recebido no callback:", tentativaFk);
+        } else {
+            console.log("Tentativa não encontrada ou erro.");
+        }
+    });
 
 
 

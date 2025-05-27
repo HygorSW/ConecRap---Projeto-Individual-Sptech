@@ -10,10 +10,22 @@ function validarSessao() {
     //     alert(`bem vindo ${nome}`)
     // } else
 
-    if(email == null && nome == null)  {
-        alert('Faça login, para postar videos!')
+    if (email == null && nome == null) {
+        alert('Faça login para acessar!')
         // window.location = "../login.html";
     }
+}
+
+function acessarQuiz() {
+    var email = sessionStorage.EMAIL_USUARIO;
+    var nome = sessionStorage.NOME_USUARIO;
+
+    if (email == null && nome == null) {
+        alert('Faça login para acessar!')
+    } else {
+        window.location = "../quiz/questoes.html";
+    }
+
 }
 
 function limparSessao() {

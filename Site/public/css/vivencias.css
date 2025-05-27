@@ -147,6 +147,8 @@ body {
     gap: 10px;
 }
 
+
+
 .post iframe {
     border-radius: 10px;
 }
@@ -348,6 +350,9 @@ form#form_postagem {
     background: #111827;
     border-radius: 15px;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container_graficos {
@@ -394,7 +399,6 @@ canvas {
     display: flex;
     align-items: center;
     min-height: 60px;
-    padding-left: 10px;
     gap: 20%;
 }
 
@@ -426,14 +430,13 @@ canvas {
 }
 
 .value_indicadores {
-    height: 75%;
+    height: 65%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 25px;
     color: orange;
 }
-
 
 /* post */
 
@@ -460,11 +463,73 @@ canvas {
     background: #111827;
     border-radius: 15px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 10px;
+    flex-direction: column;
+    overflow-y: scroll;
+    gap: 10px;
+    border: 5px solid #111827;
+    color: white;
 }
 
 .texto_post_das {
     height: 30%;
     width: 100%;
+}
+
+#desc_kpi {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+
+/* vivencias dash */
+.postModal {
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: center;
+    justify-content: space-around;
+    max-height: 500px;
+    padding: 10px;
+    color: black    ;
+}
+
+.categoria_modal {
+    height: 15px;
+    background: orange;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+}
+
+.desc_modal {
+    width: 90%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    padding: 5px;
+    justify-content: flex-start;
+}
+
+.texto_postDash {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: 50%;
+    width: 95%;
+    justify-content: flex-start;
+    height: fit-content;
+    gap: 10px;
+    text-align: left;
 }

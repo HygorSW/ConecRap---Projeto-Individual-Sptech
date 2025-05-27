@@ -67,7 +67,7 @@ function cadastrar(req, res) {
                 function (erro) {
                     console.log(erro);
                     console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        "\nHouve um erro ao realizar o cadastro! Erro: ", +
                         erro.sqlMessage
                     );
                     res.status(500).json(erro.sqlMessage);

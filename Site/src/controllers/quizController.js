@@ -2,8 +2,9 @@ var quizModel = require('../models/quizModel');
 
 // dash
 function buscarMetricas(req, res) {
-    
-    quizModel.buscarMetricas()
+    var idUsuario = req.params.idUsuario;
+
+    quizModel.buscarMetricas(idUsuario)
         .then(function (resultados) {
 
             console.log(resultados + " FOI! =D")
@@ -17,6 +18,8 @@ function buscarMetricas(req, res) {
         .catch(function (err) {
             return res.status(500).json({ erro: err.message });
         });
+
+
 };
 
 
@@ -39,6 +42,25 @@ function buscarQuestoes(req, res) {
 };
 
 
+function buscarFK(req, res) {
+    var idUsuario = req.params.id;
+
+    quizModel.buscarTentativaFK(idUsuario)
+        .then(function (resultadoFK) {
+
+            console.log(resultadoFK[0].idTentativa + " FOI! =D");
+
+            if (!resultadoFK) {
+                return res.status(500).json({ erro: 'Não foi possível recuperar a FK.' });
+            }
+            return res.status(200).json(resultadoFK);
+        })
+
+        .catch(function (err) {
+            return res.status(500).json({ erro: err.message });
+        });
+};
+
 
 
 function registrarTentativa(req, res) {
@@ -46,8 +68,9 @@ function registrarTentativa(req, res) {
     var idUsuario = req.params.id;
     var totalAcertos = req.body.acertosServer;
     var totalErros = req.body.errosServer;
+    var tentativaFK = req.body.tentativaServer;
     // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-    quizModel.registrarTentativa(totalAcertos, totalErros)
+    quizModel.registrarTentativa(idUsuario, totalAcertos, totalErros, tentativaFK)
         .then((resultado) => {
             res.status(200).json(resultado);
         }).catch(
@@ -86,5 +109,5 @@ function iniciarQuiz(req, res) {
 
 
 module.exports = {
-    buscarQuestoes, registrarTentativa, iniciarQuiz, buscarMetricas
+    buscarQuestoes, registrarTentativa, iniciarQuiz, buscarMetricas, buscarFK
 };

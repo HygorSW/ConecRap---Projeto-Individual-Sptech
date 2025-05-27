@@ -25,7 +25,7 @@
                 <li class="liNav"><a href="./index.html">Home</a></li>
                 <li class="liNav"><a href="./Hiphop.html">Sobre Hiphop</a></li>
                 <li class="liNav"><a href="./vivencias.html">Vivéncias</a></li>
-                <li class="liNav"><a href="./quiz/quiz.html">Quiz</a></li>
+                <li class="liNav"><a onclick="acessarQuiz()">Quiz</a></li>
             </ul>
             <div class="btnsContainerNav">
                 <a href="./login.html" class="btnNav">LOGIN</a>
@@ -105,8 +105,8 @@
                     <div class="titleDash">
                         <h1>Quatidade total de post:</h1>
                     </div>
-                    <div class="value_indicadores">
-                        <h1>12</h1>
+                    <div class="value_indicadores" id="indica_qtd">
+
                     </div>
 
                 </div>
@@ -115,8 +115,12 @@
                     <div class="titleDash">
                         <h1>Categoria com mais post:</h1>
                     </div>
-                    <div class="value_indicadores">
-                        <h1>Rimas</h1>
+                    <div class="value_indicadores" id="indica_Categoria">
+                        <h1>Nenhum</h1>
+                    </div>
+                    <div id="desc_kpi">
+
+                        <p>quantidade de posts dessa categoria: 0</p>
                     </div>
                 </div>
             </div>
@@ -127,19 +131,8 @@
                         <option value="todos">Todos</option>
                     </select>
                 </div>
-                <div class="feed_dash">
-                    <div class="post_dash">
-                        <div class="texto_post_das">
-                            <h1>${publicacao.titulo}</h1>
-                            <h5>Enviado por:${publicacao.nome}</h5>
-                            <p>Descrição: <b>${publicacao.descricao}</p>
-                        </div>
-                        <iframe width="100%" height="70%s"
-                            src="https://www.youtube.com/embed/G8u3P7Xqlvo?si=a7EoJRGlT7wpDLNJ"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
+                <div class="feed_dash" id="feedDash">
+
                 </div>
             </div>
 
@@ -158,6 +151,14 @@
                 </div>
 
                 <div class="campo_input_modal">
+                    <h5>Insira a categoria do video:</h5>
+                    <select name="categoria" id="select_categoria" class="input_modal">
+                        <option value="Rima">Rima</option>
+                        <option value="Skate">Skate</option>
+                        <option value="Skate">Dança</option>
+                    </select>
+                </div>
+                <div class="campo_input_modal">
                     <h5>Insira a descrição do video:</h5>
                     <textarea name="descricao" id="textarea_descricao" class="input_modal" maxlength="100"
                         rows="5"> </textarea>
@@ -166,7 +167,7 @@
                 <div class="campo_input_modal">
                     <h5>Coloque o link do seu vídeo:</h5>
                     <input type="text" name="url" oninput="preview()" class="input_modal" id="textarea_url"
-                        maxlength="30" rows="5">
+                        maxlength="100" rows="5">
                 </div>
 
                 <div id="preview_modal">
@@ -191,6 +192,11 @@
 
 <script>
     var videoId;
+    var postsDash = [];
+    var diasSemana = [];
+    var contagem = Array(7).fill(0);
+    var categoriasMax = [];
+
 
     function abirModal() {
         var email = sessionStorage.EMAIL_USUARIO;
@@ -218,6 +224,9 @@
             preview_modal.innerHTML = "<span style='color:red' > Erro! </span> O link deve ser do Youtube.";
         } else if (preview_url.includes('embed') == false) {
             videoId = preview_url.substring(preview_url.indexOf("v=") + 2, preview_url.indexOf("&")); // pega o id pra converter para embed
+            if (!preview_url.indexOf("&")) {
+                videoId = preview_url.substring(preview_url.indexOf("v=") + 2);
+            }
 
             if (!preview_url.includes('watch?v=')) {
                 preview_modal.innerHTML = "<span style='color:red' > Erro! </span> link invalido.";
@@ -243,6 +252,7 @@
 
         var corpo = {
             titulo: form_postagem.titulo.value,
+            categoria: form_postagem.categoria.value,
             descricao: form_postagem.descricao.value,
             url: videoId
 
@@ -262,7 +272,7 @@
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
                 window.location = "./vivencias.html";
                 limparFormulario();
-                finalizarAguardar();
+
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -270,16 +280,72 @@
             }
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
-            finalizarAguardar();
+
         });
 
         return false;
 
     }
 
+    function feedPessoal() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/avisos/listar/${idUsuario}`).then(function (resposta) {
+
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feedDash = document.getElementById("feedDash");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    feedDash.appendChild(mensagem);
+                }
+
+
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+                    postsDash = resposta;
+
+                    document.getElementById('indica_qtd').innerHTML = `<h1>${resposta.length}</h1>`;
+
+
+                    var feedDash = document.getElementById("feedDash");
+                    feedDash.innerHTML = "";
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacaoDash = resposta[i];
+                        var divPublicacaoDash = document.createElement("div");
+
+                        divPublicacaoDash.innerHTML = `  <div class="postModal">
+                        <div class="texto_postDash">
+                            <h1>${publicacaoDash.titulo}</h1>
+                            <div class="categoria_modal"> ${publicacaoDash.categoria}</div>
+                            <div class="desc_modal"><p>${publicacaoDash.descricao}</p> </div>
+                        </div>
+                        <iframe width="186" height="105"
+                            src="https://www.youtube.com/embed/${publicacaoDash.url}?si=a7EoJRGlT7wpDLNJ"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    `;
+
+                        feedDash.appendChild(divPublicacaoDash);
+
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+
+        });
+    }
+
 
     function atualizarFeed() {
-        fetch("/avisos/listar").then(function (resposta) {
+        fetch("/avisos/listar/").then(function (resposta) {
 
             if (resposta.ok) {
                 if (resposta.status == 204) {
@@ -287,7 +353,7 @@
                     var mensagem = document.createElement("span");
                     mensagem.innerHTML = "Nenhum resultado encontrado."
                     feed.appendChild(mensagem);
-                    throw "Nenhum resultado encontrado!!";
+                    throw "Nenhum resulta=do encontrado!!";
                 }
 
                 resposta.json().then(function (resposta) {
@@ -302,7 +368,7 @@
                         divPublicacao.innerHTML = `  <div class="post">
                         <div class="texto_post">
                             <h1>${publicacao.titulo}</h1>
-                            <h5>Enviado por:${publicacao.nome}</h5>
+                            <h5>Enviado por:${publicacao.nome}    Categoria: ${publicacao.categoria}</h5>
                             <p><b>Descrição:</b>${publicacao.descricao}</p>
                         </div>
                         <iframe width="560" height="315"
@@ -316,57 +382,103 @@
 
                     }
 
-                    finalizarAguardar();
+
                 });
             } else {
                 throw ('Houve um erro na API!');
             }
         }).catch(function (resposta) {
             console.error(resposta);
-            finalizarAguardar();
+
         });
     }
 
+    function contarCategoria() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/avisos/categoria/${idUsuario}`).then(function (resposta) {
+
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (dados) {
+                    console.log("Dados recebidos: ", dados);
+                    // Acessando dados.categoria
+                    document.getElementById('indica_Categoria').innerHTML = `<h1>${dados[0].categoria}</h1>`;
+                    document.getElementById('desc_kpi').innerHTML = `<p>quantidade de posts dessa categoria: ${dados[0].total_posts}</p>`;
+                });
+
+
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+
+        });
+
+    }
+
+
     function abirModalDash() {
-        const modal = document.getElementById('janela-modal')
-        modal.classList.add('abrir')
+        var email = sessionStorage.EMAIL_USUARIO;
+        var nome = sessionStorage.NOME_USUARIO;
+        if (email != null && nome != null) {
+            const modal = document.getElementById('janela-modal')
+            modal.classList.add('abrir')
 
-        modal.addEventListener('click', (e) => {
-            if (e.target.id == 'btnFecharDash' || e.target.id == 'janela-modal') {
-                modal.classList.remove('abrir')
-            }
-        })
+            modal.addEventListener('click', (e) => {
+                if (e.target.id == 'btnFecharDash' || e.target.id == 'janela-modal') {
+                    modal.classList.remove('abrir')
+                }
+            })
+            feedPessoal();
+            contarCategoria();
 
-        var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-                datasets: [{
-                    label: 'Nivel de Gás Natural',
-                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                    borderWidth: 1,
-                    backgroundColor: 'orange',
-                    borderColor: 'orange',
-                }]
-            }
 
-        });
+            diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            contagem = Array(7).fill(0);
+            // postsDash.forEach(post => {
+            //     const data = new Date(post.dataPostagem);
+            //     const dia = data.getDay(); // 0 (Domingo) a 6 (Sábado)
+            //     contagem[dia]++;
+            // });
 
-        var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-                datasets: [{
-                    label: 'Nivel de Gás Natural',
-                    data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                    borderWidth: 1,
-                    backgroundColor: 'orange',
-                    borderColor: 'orange',
-                }]
-            }
+            var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: diasSemana,
+                    datasets: [{
+                        label: 'Quantidade de posts na semana',
+                        data: contagem,
+                        borderWidth: 1,
+                        backgroundColor: 'orange',
+                        borderColor: 'orange',
+                    }]
+                }
 
-        });
+            });
 
+
+            var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                    datasets: [{
+                        label: 'Categorias de Posts',
+                        data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
+                        borderWidth: 1,
+                        backgroundColor: 'orange',
+                        borderColor: 'orange',
+                    }]
+                }
+
+            });
+        } else {
+            validarSessao()
+        }
     }
 
 

@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-between;
     position: relative;
-    padding: 20px;
+    padding: 25px;
     border-radius: 15px;
 }
 
@@ -39,7 +39,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: 25%;
+    width: 30%;
     height: 100%;
 }
 
@@ -48,7 +48,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    width: 25%;
+    width: 20%;
     height: 100%;
 }
 
@@ -58,20 +58,21 @@
     align-items: center;
     width: 45%;
     height: 100%;
-    padding: 20px;
 }
 
 /* kpi */
 
 .indicador {
-    height: 45%;
-    background: #111827;
+    height: 30%;
+    background: rgb(201, 131, 0);
     width: 100%;
     border-radius: 25px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
+    padding: 10px;
+    color: black;
 }
 
 .title_indicador {
@@ -80,22 +81,29 @@
     color: white;
     width: 90%;
     justify-content: space-between;
+    color: black;
+
 }
 
 .grafico_Dash {
     width: 100%;
     height: 50%;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    position: relative;
 }
-
 
 /* ranking */
 table {
     width: 100%;
-    max-height: 80%;
     color: #ffffff;
-    height: 400px;
+    height: 95%;
+}
+
+#desc_kpi p {
+    color: black;
 }
 
 tr {
@@ -135,4 +143,52 @@ p {
 
 #value_kpi_2 {
     font-size: 50px;
+}
+
+#tabelaTentativas {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: scroll;
+    height: 100%;
+    font-size: 25px;
+    margin-top: 25px;
+}
+
+/* Scroll minimalista laranja */
+#tabelaTentativas::-webkit-scrollbar {
+    width: 2px;
+}
+
+#tabelaTentativas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#tabelaTentativas::-webkit-scrollbar-thumb {
+    background-color: orange;
+    border-radius: 10px;
+}
+
+/* Firefox */
+#tabelaTentativas {
+    scrollbar-width: thin;
+    scrollbar-color: orange transparent;
+}
+
+#pontuacaoGrafico {
+    position: absolute;
+}
+
+#graficoLabel {
+    position: absolute;
+    bottom: 23px;
+}
+
+#graficoTitulo {
+    font-size: 20px;
+    font-weight: normal;
+    color: #f0f0f0;
+    position: absolute;
+    top: 45px;
 }

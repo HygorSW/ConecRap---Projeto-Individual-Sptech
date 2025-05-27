@@ -7,6 +7,11 @@ router.get("/listar", function (req, res) {
     avisoController.listar(req, res);
 });
 
+router.get("/categoria/:idUsuario", function (req, res) {
+    avisoController.contarCategoria(req, res);
+});
+
+
 router.get("/listar/:idUsuario", function (req, res) {
     avisoController.listarPorUsuario(req, res);
 });
