@@ -65,7 +65,7 @@ function pesquisarDescricao(texto) {
 }
 
 function listarPorUsuario(idUsuario) {
-    console.log("ACESSEI O posts MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
+    console.log("function listarPorUsuario()");
     var instrucaoSql = `
         SELECT 
             a.idPost AS idposts,
@@ -97,10 +97,53 @@ function publicar(titulo, categoria, descricao, idUsuario, url) {
     return database.executar(instrucaoSql);
 }
 
+
+
+
+function buscarGraficoWeek(idUsuario) {
+    console.log("ACESSEI O posts MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", idUsuario);
+
+    var instrucaoSql = `
+  SELECT 
+    DAYNAME(criado_em) AS dia_semana,
+    COUNT(*) AS quantidade_posts
+FROM posts
+WHERE 
+    fk_usuario = 32 AND
+    DATE(criado_em) = CURDATE()
+GROUP BY DAYNAME(criado_em);
+
+
+    `
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarGraficoCategoria(idUsuario) {
+    console.log("ACESSEI O GRAFICO categorias", idUsuario);
+
+    var instrucaoSql = `SELECT 
+    u.nome AS usuario,
+    p.categoria,
+    COUNT(p.idPost) AS total_posts
+FROM posts p
+JOIN usuario u ON p.fk_usuario = u.idUsuario
+WHERE u.idUsuario = ${idUsuario} 
+GROUP BY u.idUsuario, p.categoria
+ORDER BY total_posts DESC;`
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+
 module.exports = {
     listar,
     listarPorUsuario,
     pesquisarDescricao,
     publicar,
-    contarCategoria
+    contarCategoria,
+    buscarGraficoWeek,
+    buscarGraficoCategoria
 }

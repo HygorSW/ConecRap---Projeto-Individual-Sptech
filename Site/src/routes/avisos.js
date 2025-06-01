@@ -24,12 +24,15 @@ router.post("/publicar/:idUsuario", function (req, res) {
     avisoController.publicar(req, res);
 });
 
-router.put("/editar/:idAviso", function (req, res) {
-    avisoController.editar(req, res);
+router.get("/week/:idUsuario", function (req, res) {
+    avisoController.buscarGraficoWeek(req, res);
 });
 
-router.delete("/deletar/:idAviso", function (req, res) {
-    avisoController.deletar(req, res);
+router.get("/graficoCategorias/:idUsuario", function (req, res) {
+    avisoController.buscarGraficoCategoria(req, res);
 });
 
-module.exports = router;
+
+
+
+module.exports = router; 

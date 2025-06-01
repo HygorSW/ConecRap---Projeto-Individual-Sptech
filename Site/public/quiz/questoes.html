@@ -161,7 +161,8 @@
     // Função para preencher as questões na página
     function preencherHTMLcomQuestaoAtual(index) {
 
-        const questaoAtual = listaDeQuestoes[index];
+        const questaoAtual = listaDeQuestoes[index]; // puxa a questão atual com base no parametro
+
         console.log(questaoAtual); // Verifique se as questões estão sendo carregadas corretamente
         document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = questaoAtual.idQuestoes;
         document.getElementById("qtdQuestoes").innerHTML = questaoAtual.pergunta_texto;
@@ -172,12 +173,15 @@
         if (index == listaDeQuestoes.length - 1) {
             alert('Ultima questão!')
         }
+
     }
 
 
 
     document.getElementById('btnIniciarQuiz').addEventListener('click', carregarQuestoes);
 
+
+    // apresentar as questões ( deixa a div visivel )
     function apresentarQuestoes() {
         idjogoContainer.style.opacity = 1;
         btnIniciarQuiz.style.opacity = 0;
@@ -186,10 +190,16 @@
         indiceBar.innerHTML = `${progresso}/${listaDeQuestoes.length}`;
     }
 
+
+    // funcao de resposta
     function responder() {
         if (progresso < listaDeQuestoes.length) {
 
+            // puxa a questão atual
             const questaoAtual = listaDeQuestoes[progresso];
+
+
+            // valda a resposta do usuario
             if (alternativaResp == questaoAtual.alternativa_correta) {
                 document.getElementById(alternativaSelecionada).style.background = 'green';
 
@@ -219,6 +229,7 @@
                 }, 100);
 
             } else {
+                //caso for errada
                 document.getElementById(alternativaSelecionada).style.background = 'red';
                 setTimeout(() => {
                     youloose.classList.add('ativo');
@@ -252,6 +263,7 @@
         totalAcertos = acertos;
         var totalErros = listaDeQuestoes.length - totalAcertos;
 
+        // fetch para inserir o resultado no banco
         fetch(`/quiz/tentativa/${idUsuario}`, {
             method: "post",
             headers: {
@@ -284,10 +296,10 @@
     }
 
 
-
+    // primeira função de todas
     function inicioQuiz() {
         var idUsuario = sessionStorage.ID_USUARIO;
-
+        // cadsatra uma tentativa no banco
         fetch(`/quiz/inicio/${idUsuario}`, {
             method: "post",
             headers: {
@@ -314,8 +326,8 @@
         return false;
     }
 
-
-    function buscarFK(callback) {
+    // pegar a ultima tentativa registrada
+    function buscarFK(retorno) {
         var idUsuario = sessionStorage.ID_USUARIO;
 
         fetch(`/quiz/fk/${idUsuario}`)
@@ -324,21 +336,22 @@
                 if (data && data.length > 0) {
                     tentativaFk = data[0].idTentativa; // Pega o valor da tentativa
                     console.log("TentativaFk carregada:", tentativaFk);
-                    if (callback) callback(tentativaFk); // Chama o callback com o valor
+                    if (retorno) retorno(tentativaFk); // Chama o retorno com o valor
                 } else {
                     console.error("Nenhuma tentativa encontrada.");
-                    if (callback) callback(null); // Chama o callback com null
+                    if (retorno) retorno(null); // Chama o retorno com null
                 }
             })
             .catch(error => {
                 console.error("Erro ao carregar a FK:", error);
-                if (callback) callback(null); // Chama o callback com null
+                if (retorno) retorno(null); // Chama o retorno com null
             });
     }
 
+    // valida se achou
     buscarFK(function (tentativaFk) {
         if (tentativaFk) {
-            console.log("Valor recebido no callback:", tentativaFk);
+            console.log("Valor recebido no retorno:", tentativaFk);
         } else {
             console.log("Tentativa não encontrada ou erro.");
         }

@@ -16,6 +16,16 @@ function validarSessao() {
     }
 }
 
+function validarLogin() {
+    var nome = sessionStorage.NOME_USUARIO;
+    if (nome != null) {
+        btnsNav.innerHTML = `<a onclick="limparSessao()" class="btnNav">Logout</a>`
+    } else {
+        btnsNav.innerHTML = `    <a href="./login.html" class="btnNav">LOGIN</a>
+                    <a href="./cadastro.html" class="btnNav" id="btnCadastro">CADASTRO</a>`
+    }
+}
+
 function acessarQuiz() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
@@ -30,6 +40,6 @@ function acessarQuiz() {
 
 function limparSessao() {
     sessionStorage.clear();
-    window.location = "../login.html";
+    window.location = "../index.html";
 }
 

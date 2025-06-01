@@ -18,12 +18,14 @@ var app = express();
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
-var quizRouter = require("./src/routes/quiz"); 
+var quizRouter = require("./src/routes/quiz");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
-
+app.use(express.static(path.join(__dirname, "public"), { cacheControl: false, etag: false }));
+// Ou use o middleware 'nocache' durante o desenvolvimento
+const nocache = require("nocache");
+app.use(nocache());
 app.use(cors());
 
 app.use("/", indexRouter);

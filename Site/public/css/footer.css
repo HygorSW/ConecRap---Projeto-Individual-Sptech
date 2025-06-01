@@ -1,5 +1,3 @@
-
-
 /* footer */
 .section_footer {
     width: 100%;
@@ -49,4 +47,13 @@
 
 .texto_dev h1 {
     color: orange;
+}
+
+svg {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+svg:hover {
+    transform: scale(1.05);
 }

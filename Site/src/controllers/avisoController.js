@@ -122,39 +122,52 @@ function publicar(req, res) {
     }
 }
 
-function editar(req, res) {
-    var novaDescricao = req.body.descricao;
-    var idAviso = req.params.idAviso;
 
-    avisoModel.editar(novaDescricao, idAviso)
+function buscarGraficoWeek(req, res) {
+    var idUsuario = req.params.idUsuario;
+    avisoModel.buscarGraficoWeek(idUsuario)
         .then(
-            function (resultado) {
-                res.json(resultado);
+            function (respostaWeek) {
+                if (respostaWeek.length > 0) {
+                    res.status(200).json(respostaWeek);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!");
+                }
             }
         )
         .catch(
             function (erro) {
                 console.log(erro);
-                console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+                console.log(
+                    "Houve um erro ao buscar os avisos: ",
+                    erro.sqlMessage
+                );
                 res.status(500).json(erro.sqlMessage);
             }
         );
-
 }
 
-function deletar(req, res) {
-    var idAviso = req.params.idAviso;
 
-    avisoModel.deletar(idAviso)
+function buscarGraficoCategoria(req, res) {
+    var idUsuario = req.params.idUsuario;
+    console.log('Acessei!')
+    avisoModel.buscarGraficoCategoria(idUsuario)
         .then(
-            function (resultado) {
-                res.json(resultado);
+            function (respostaCategoria) {
+                if (respostaCategoria.length > 0) {
+                    res.status(200).json(respostaCategoria);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!");
+                }
             }
         )
         .catch(
             function (erro) {
                 console.log(erro);
-                console.log("Houve um erro ao deletar o post: ", erro.sqlMessage);
+                console.log(
+                    "Houve um erro ao buscar os avisos: ",
+                    erro.sqlMessage
+                );
                 res.status(500).json(erro.sqlMessage);
             }
         );
@@ -165,7 +178,7 @@ module.exports = {
     listarPorUsuario,
     pesquisarDescricao,
     publicar,
-    editar,
-    deletar,
-    contarCategoria
+    buscarGraficoWeek,
+    contarCategoria,
+    buscarGraficoCategoria
 }

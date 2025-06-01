@@ -110,6 +110,7 @@
     var listaTentativas = [];
     var dataGrafico = [];
     var timeGrafico = [];
+    var indiceTentativas = [];
 
     var errosGraficos = 0;
     var acertosGraficos = 0
@@ -139,13 +140,13 @@
 
 
         for (var contador = listaTentativas.length - 1; contador >= 0; contador--) {
-
+            indiceTentativas.push(contador)
             var tentativa_atual = listaTentativas[contador];
             console.log(tentativa_atual); // Verifique se as questões estão sendo carregadas corretamente
             // Aqui você pode criar dinamicamente uma linha na tabela
             var novaLinha = `
                 <tr>
-                    <td>${tentativa_atual.idResultado}</td>
+                    <td>${contador + 1}</td>
                     <td>${tentativa_atual.acertos}/${tentativa_atual.qtd_questoes}</td>
                     <td>${(new Date(tentativa_atual.fim)).toISOString().split('T')[0].split('-').reverse().join('/')}</td>
                     <td>${tentativa_atual.tempo}</td>
@@ -199,7 +200,7 @@
             // dataGrafico.push(barraAtual.acertos)
             const dataOriginal = ` ${barraAtual.idResultado}º`;
             // const dataFormatada = new Date(dataOriginal).toLocaleDateString('pt-BR');
-            timeGrafico.unshift(dataOriginal)
+            timeGrafico.unshift((indiceTentativas[i - 1] + 1))
 
         }
 
