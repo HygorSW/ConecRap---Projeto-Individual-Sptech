@@ -109,7 +109,7 @@ O Hip-Hop é um movimento cultural que surgiu no Bronx, em Nova York, em 1970, c
 | Etapa              | Duração | Descrição                                              |
 |--------------------|---------|----------------------------------------------------------|
 | Planejamento       | 4 dias  | Levantamento de requisitos e estrutura inicial           |
-| Desenvolvimento    | 14 dias  | Implementação das principais funcionalidades             |
+| Desenvolvimento    | 20 dias  | Implementação das principais funcionalidades             |
 | Funcionalidades Extra | 4 dias  | Ajustes de layout e testes                              |
 | Finalização        | 2 dias  | Documentação e entrega final                             |
 
