@@ -104,14 +104,14 @@ function buscarGraficoWeek(idUsuario) {
     console.log("ACESSEI O posts MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", idUsuario);
 
     var instrucaoSql = `
-  SELECT 
+SELECT 
     DAYNAME(criado_em) AS dia_semana,
     COUNT(*) AS quantidade_posts
 FROM posts
-WHERE 
-    fk_usuario = 32 AND
-    DATE(criado_em) = CURDATE()
-GROUP BY DAYNAME(criado_em);
+ WHERE 
+    fk_usuario = ${idUsuario} and criado_em >= NOW() - INTERVAL 7 DAY
+GROUP BY dia_semana;
+
 
 
     `

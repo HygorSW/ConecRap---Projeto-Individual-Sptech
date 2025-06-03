@@ -147,10 +147,12 @@
             <div id="btnFecharDash">X</div>
             <div class="container_graficos">
                 <div class="grafico_Dash">
+                    <h1>Posts por dia da semana</h1>
                     <canvas id="grafico_post"></canvas>
                 </div>
 
                 <div class="grafico_Dash">
+                    <h1>Total de Publicações por Categoria</h1>
                     <canvas id="graficoCategoria"></canvas>
                 </div>
             </div>
@@ -253,9 +255,9 @@
     var videoId;
     var postsDash = [];
     var diasSemana = [];
-    var contagem = Array(7).fill(0);
+    var contagem = [];
     var categoriasMax = [];
-
+    var categoriasCont = [];
     var graficoWeek = [];
 
 
@@ -273,6 +275,28 @@
             .then(function (respostaCategoria) {
                 categoriasCont = respostaCategoria;
                 console.log("Dados recebidos categorias grafico: ", JSON.stringify(categoriasCont));
+
+
+                categoriaContagem = [0, 0, 0, 0, 0, 0, 0];
+
+                for (let i = 0; i < categoriasCont.length; i++) {
+                    if (categoriasCont[i].categoria === "Rimas e Poesia Urbana") {
+                        categoriaContagem[1] += categoriasCont[i].total_posts;
+                    } else if (categoriasCont[i].categoria === 'Música de Rua e Cultura Hip-Hop') {
+                        categoriaContagem[2] += categoriasCont[i].total_posts;
+                    } else if (categoriasCont[i].categoria === 'Skate e Estilo de Vida') {
+                        categoriaContagem[3] += categoriasCont[i].total_posts;
+                    } else if (categoriasCont[i].categoria === 'Informativos e Conscientização') {
+                        categoriaContagem[4] += categoriasCont[i].total_posts;
+                    } else if (categoriasCont[i].categoria === 'Lifestyle e Inspirações') {
+                        categoriaContagem[5] += categoriasCont[i].total_posts;
+                    } else if (categoriasCont[i].categoria === 'Dança e Movimento') {
+                        categoriaContagem[6] += categoriasCont[i].total_posts;
+                    } else {
+                        categoriaContagem[0] += categoriasCont[i].total_posts;
+                    }
+                }
+                atualizarGraficoCategoria();
             })
             .catch(function (erro) {
                 console.error("Erro ao buscar dados:", erro);
@@ -295,6 +319,27 @@
             .then(function (respostaWeek) {
                 console.log("Dados recebidos week: ", JSON.stringify(respostaWeek));
                 graficoWeek = respostaWeek;
+
+                contagem = [0, 0, 0, 0, 0, 0, 0];
+
+                for (let i = 0; i < graficoWeek.length; i++) {
+                    if (graficoWeek[i].dia_semana === 'Monday') {
+                        contagem[1] += graficoWeek[i].quantidade_posts;
+                    } else if (graficoWeek[i].dia_semana === 'Tuesday') {
+                        contagem[2] += graficoWeek[i].quantidade_posts;
+                    } else if (graficoWeek[i].dia_semana === 'Wednesday') {
+                        contagem[3] += graficoWeek[i].quantidade_posts;
+                    } else if (graficoWeek[i].dia_semana === 'Thursday') {
+                        contagem[4] += graficoWeek[i].quantidade_posts;
+                    } else if (graficoWeek[i].dia_semana === 'Friday') {
+                        contagem[5] += graficoWeek[i].quantidade_posts;
+                    } else if (graficoWeek[i].dia_semana === 'Saturday') {
+                        contagem[6] += graficoWeek[i].quantidade_posts;
+                    } else {
+                        contagem[0] += graficoWeek[i].quantidade_posts;
+                    }
+                }
+                atualizarGraficoWeek();
             })
             .catch(function (erro) {
                 console.error("Erro ao buscar dados:", erro);
@@ -341,6 +386,7 @@
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`}
+
         } else {
             preview_modal.innerHTML = `  <iframe width="560" height="315" src="${preview_url}"
                         title="YouTube video player" frameborder="0"
@@ -545,44 +591,90 @@
             buscarCategoria();
             feedPessoal();
             contarCategoria();
-            // buscarWeek();
+            buscarWeek();
 
 
-            diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-            contagem = Array(7).fill(0);
-            var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: diasSemana,
-                    datasets: [{
-                        label: 'Quantidade de posts na semana',
-                        data: contagem,
-                        borderWidth: 1,
-                        backgroundColor: 'orange',
-                        borderColor: 'orange',
-                    }]
-                }
-
-            });
 
 
-            var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
-                    datasets: [{
-                        label: 'Categorias de Posts',
-                        data: [2, 3, 2, 4, 10, 11, 5, 4, 2.3, 2, 2.5],
-                        borderWidth: 1,
-                        backgroundColor: 'orange',
-                        borderColor: 'orange',
-                    }]
-                }
-
-            });
         } else {
             validarSessao()
         }
+    }
+
+    function atualizarGraficoCategoria() {
+        categoriaIndice = ['Arte', 'Rimas', 'Cultura Hip-Hop', 'Skate', 'Informativos', 'Lifestyle', 'Dança'];
+
+
+        var graficoCategoria = new Chart(document.getElementById('graficoCategoria').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: categoriaIndice,
+                datasets: [{
+                    label: 'Total de Publicações por Categoria',
+                    data: categoriaContagem,
+                    borderWidth: 1,
+                    backgroundColor: 'orange',
+                    borderColor: 'orange',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Posts'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'categorias'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    function atualizarGraficoWeek() {
+
+        diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+        var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: diasSemana,
+                datasets: [{
+                    label: 'Posts por dia da semana',
+                    data: contagem,
+                    borderWidth: 2,
+                    backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                    borderColor: 'orange',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Posts'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Dia da Semana'
+                        }
+                    }
+                }
+            }
+        });
     }
 
 

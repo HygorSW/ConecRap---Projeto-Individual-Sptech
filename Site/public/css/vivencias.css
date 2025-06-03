@@ -334,6 +334,9 @@ form#form_postagem {
 .grafico_Dash {
     height: 300px;
     background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container_indicadores {
@@ -498,7 +501,7 @@ canvas {
     justify-content: space-around;
     max-height: 500px;
     padding: 10px;
-    color: black    ;
+    color: black;
 }
 
 .categoria_modal {
