@@ -211,7 +211,8 @@ select
     COUNT(p.criado_em) as total_post
     from posts as p where p.fk_usuario = 1
      and p.criado_em >= now() - INTERVAL 7 day
-     group by (dia_semana, dia) ;
+     group by dia_semana, dia ;
+		
      
      
 
