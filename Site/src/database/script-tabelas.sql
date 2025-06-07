@@ -80,13 +80,16 @@ INSERT INTO posts (titulo, categoria, descricao, url, fk_usuario, criado_em) VAL
 	-- quiz
 	-- Inserindo questões
 INSERT INTO Questoes (fkQuiz, pergunta_texto, alternativaA, alternativaB, alternativaC, alternativaD, alternativa_correta) VALUES
-(1, 'Em que ano DJ Kool Herc realizou a festa considerada o nascimento do Hip-Hop?', '1970', '1973', '1979', '1982', 'B'),
-(1, 'Onde surgiu o movimento Hip-Hop?', 'Nova Iorque', 'Los Angeles', 'Detroit', 'Atlanta', 'A'),
-(1, 'Qual destes não é um dos quatro elementos clássicos do Hip-Hop?', 'Grafite', 'Breaking', 'Freestyle', 'Trap', 'D'),
-(1, 'Qual função não está entre os quatro elementos principais do Hip-Hop?', 'MC', 'DJ', 'Produtor', 'B-Boy', 'C'),
-(1, 'Teste', 'Errada', 'Errada', 'correta', 'Errada', 'C'),
-(1, 'Qual rapper fez parte do grupo N.W.A?', 'Notorious B.I.G.', 'Tupac', 'Eazy-E', 'Jay-Z', 'C');
-
+(1, 'Qual é considerada a data de nascimento oficial do hip hop?', '11 de agosto de 1973', '4 de julho de 1980', '2 de setembro de 1975', '10 de outubro de 1970', 'A'),
+(1, 'Quem é o artista conhecido como "o pai do hip hop"?', 'DJ Premier', 'Grandmaster Flash', 'DJ Kool Herc', 'Afrika Bambaataa', 'C'),
+(1, 'Qual foi o primeiro grande sucesso de rap a alcançar o mainstream?', 'Fight the Power – Public Enemy', 'Rapper’s Delight – Sugarhill Gang', 'The Message – Grandmaster Flash', 'Straight Outta Compton – N.W.A', 'B'),
+(1, 'Qual grupo é conhecido por popularizar o gangsta rap?', 'Beastie Boys', 'N.W.A', 'Run-D.M.C.', 'Wu-Tang Clan', 'B'),
+(1, 'Qual rapper ficou famoso com o álbum "Illmatic"?', 'Tupac Shakur', 'Nas', 'Jay-Z', 'Snoop Dogg', 'B'),
+(1, 'Qual elemento NÃO faz parte dos 4 pilares originais do hip hop?', 'Graffiti', 'Breakdance', 'Beatbox', 'DJing', 'C'),
+(1, 'Em que cidade nasceu o movimento hip hop?', 'Los Angeles', 'Nova York', 'Atlanta', 'Chicago', 'B'),
+(1, 'Qual rapper é conhecido por seu alter ego "Slim Shady"?', 'Eminem', 'Drake', '50 Cent', 'Kendrick Lamar', 'A'),
+(1, 'Qual dessas é uma gravadora famosa do hip hop dos anos 1990?', 'Death Row Records', 'Sub Pop', 'Big Machine', 'Roadrunner', 'A'),
+(1, 'Qual artista de hip hop brasileiro lançou o álbum "Sobrevivendo no Inferno"?', 'Sabotage', 'Racionais MC’s', 'Criolo', 'Emicida', 'B');
 
 -- tentativa
 INSERT INTO Tentativas (fkUsuario, fkQuiz, dataHora)
@@ -195,13 +198,22 @@ GROUP BY u.idUsuario, p.categoria;
 	
 SELECT 
     DAYNAME(criado_em) AS dia_semana,
-    COUNT(*) AS quantidade_posts,
-    criado_em
+    COUNT(*) AS quantidade_posts
 FROM posts
  WHERE 
     fk_usuario = 1 and criado_em >= NOW() - INTERVAL 7 DAY
 GROUP BY dia_semana;
 
+
+select
+	day(p.criado_em) as dia,
+    DAYNAME(p.criado_em) AS dia_semana,
+    COUNT(p.criado_em) as total_post
+    from posts as p where p.fk_usuario = 1
+     and p.criado_em >= now() - INTERVAL 7 day
+     group by (dia_semana, dia) ;
+     
+     
 
 
 

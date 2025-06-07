@@ -39,9 +39,6 @@
                     <h5>Acompanhe as vivências da cultura!</h5>
                     <h5>Mande o link dos seus vídeos pra gente postar!</h5>
                 </div>
-                <select class="btnPost" name="" id="">
-                    <option value="todos">TODOS</option>
-                </select>
             </div> <!-- fim header  -->
             <div class="container_post"> <!--  post container  -->
                 <div class="row_buttons"> <!--top post  -->
@@ -320,25 +317,6 @@
                 console.log("Dados recebidos week: ", JSON.stringify(respostaWeek));
                 graficoWeek = respostaWeek;
 
-                contagem = [0, 0, 0, 0, 0, 0, 0];
-
-                for (let i = 0; i < graficoWeek.length; i++) {
-                    if (graficoWeek[i].dia_semana === 'Monday') {
-                        contagem[1] += graficoWeek[i].quantidade_posts;
-                    } else if (graficoWeek[i].dia_semana === 'Tuesday') {
-                        contagem[2] += graficoWeek[i].quantidade_posts;
-                    } else if (graficoWeek[i].dia_semana === 'Wednesday') {
-                        contagem[3] += graficoWeek[i].quantidade_posts;
-                    } else if (graficoWeek[i].dia_semana === 'Thursday') {
-                        contagem[4] += graficoWeek[i].quantidade_posts;
-                    } else if (graficoWeek[i].dia_semana === 'Friday') {
-                        contagem[5] += graficoWeek[i].quantidade_posts;
-                    } else if (graficoWeek[i].dia_semana === 'Saturday') {
-                        contagem[6] += graficoWeek[i].quantidade_posts;
-                    } else {
-                        contagem[0] += graficoWeek[i].quantidade_posts;
-                    }
-                }
                 atualizarGraficoWeek();
             })
             .catch(function (erro) {
@@ -638,12 +616,66 @@
         });
     }
 
+    var dataDia = new Date();
 
     function atualizarGraficoWeek() {
 
+
+        var hoje = dataDia.getDay();
+        listaRep = [];
         diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+        console.log("Dia:" + hoje);
+        for (let i = hoje + 1; i < 7; i++) {
+            if (listaRep.includes(diasSemana[i]) == false) {
+                listaRep.push(diasSemana[i])
+
+                if (i == diasSemana.length - 1) {
+                    i = -1;
+                }
+            }
+
+        }
+
+        console.log(listaRep);
+
+
+        contagem = [0, 0, 0, 0, 0, 0, 0];
+
+        for (let i = 0; i < graficoWeek.length; i++) {
+            if (graficoWeek[i].dia_semana === 'Monday') {
+
+                contagem[diasSemana.indexOf("Segunda")] += graficoWeek[i].quantidade_posts;
+
+            } else if (graficoWeek[i].dia_semana === 'Tuesday') {
+
+                contagem[diasSemana.indexOf("Terça")] += graficoWeek[i].quantidade_posts;
+
+            } else if (graficoWeek[i].dia_semana === 'Wednesday') {
+
+                contagem[diasSemana.indexOf("Quarta")] += graficoWeek[i].quantidade_posts;
+
+            } else if (graficoWeek[i].dia_semana === 'Thursday') {
+
+                contagem[diasSemana.indexOf("Quinta")] += graficoWeek[i].quantidade_posts;
+
+            } else if (graficoWeek[i].dia_semana === 'Friday') {
+
+                contagem[diasSemana.indexOf("Sexta")] += graficoWeek[i].quantidade_posts;
+
+            } else if (graficoWeek[i].dia_semana === 'Saturday') {
+
+                contagem[diasSemana.indexOf("Sábado")] += graficoWeek[i].quantidade_posts;
+
+            } else {
+
+                contagem[diasSemana.indexOf("Domingo")] += graficoWeek[i].quantidade_posts;
+
+            }
+        }
+
         var grafico_post = new Chart(document.getElementById('grafico_post').getContext('2d'), {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: diasSemana,
                 datasets: [{

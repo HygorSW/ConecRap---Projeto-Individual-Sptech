@@ -139,7 +139,6 @@
 
 
 
-
     // Função para carregar as questões
     function carregarQuestoes() {
         fetch("/quiz/questoes")
@@ -253,15 +252,15 @@
 
 
     function cadastrarTentativa() {
-        buscarFK();
-        if (tentativaFk === null) {
+
+        if (TentativaFk === null) {
             window.alert("Erro ao carregar a tentativa FK. Tente novamente.");
-            return false; // Interrompe a execução se tentativaFk não foi carregada
+            return false; // Interrompe a execução se TentativaFk não foi carregada
         }
 
         var idUsuario = sessionStorage.ID_USUARIO;
         totalAcertos = acertos;
-        var totalErros = listaDeQuestoes.length - totalAcertos;
+        totalErros = listaDeQuestoes.length - totalAcertos;
 
         // fetch para inserir o resultado no banco
         fetch(`/quiz/tentativa/${idUsuario}`, {
@@ -272,7 +271,7 @@
             body: JSON.stringify({
                 acertosServer: totalAcertos,
                 errosServer: totalErros,
-                tentativaServer: tentativaFk,
+                tentativaServer: TentativaFk,
 
             }),
         })
@@ -313,6 +312,8 @@
                 if (resposta.ok) {
                     window.alert("tentativa realizada com sucesso pelo usuario de ID: " + idUsuario + "!");
                     // window.location = "./questoes.html";
+                    buscarFK();
+
                 } else if (resposta.status == 404) {
                     window.alert("Deu 404!");
                 } else {
@@ -334,9 +335,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data && data.length > 0) {
-                    tentativaFk = data[0].idTentativa; // Pega o valor da tentativa
-                    console.log("TentativaFk carregada:", tentativaFk);
-                    if (retorno) retorno(tentativaFk); // Chama o retorno com o valor
+                    TentativaFk = data[0].idTentativa; // Pega o valor da tentativa
+                    console.log("TentativaFk carregada:", TentativaFk);
+                    if (retorno) retorno(TentativaFk); // Chama o retorno com o valor
                 } else {
                     console.error("Nenhuma tentativa encontrada.");
                     if (retorno) retorno(null); // Chama o retorno com null
@@ -348,14 +349,6 @@
             });
     }
 
-    // valida se achou
-    buscarFK(function (tentativaFk) {
-        if (tentativaFk) {
-            console.log("Valor recebido no retorno:", tentativaFk);
-        } else {
-            console.log("Tentativa não encontrada ou erro.");
-        }
-    });
 
 
 
