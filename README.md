@@ -25,16 +25,16 @@ Criar uma aplicação web que promova a cultura Hip-Hop, com foco em educação,
 ## 📷 Screenshots
 
 ### Página Inicial
-![Página Inicial](./Prototipo/prints/home01.png)
-![Página Inicial](./Prototipo/prints/home02.png)
-![Página Inicial](./Prototipo/prints/dev.png)
+![Página Inicial](./Prototipo/prints/home1.png)
+![Página Inicial](./Prototipo/prints/home2.png)
+![Página Inicial](./Prototipo/prints/developer.png)
 
 ### Seção de História
-![Seção de História](./Prototipo/prints/sobre01.png)
-![Seção de História](./Prototipo/prints/sobre02.png)
+![Seção de História](./Prototipo/prints/sobre1.png)
+![Seção de História](./Prototipo/prints/sobre2.png)
 
 ### Tela de posts
-![Feed Posts](./Prototipo/prints/vivencias01.png)
+![Feed Posts](./Prototipo/prints/vivencias1.png)
 ![Dash Posts](./Prototipo/prints/dash-post.png)
 
 ### Página de Login e Cadastro
@@ -42,10 +42,10 @@ Criar uma aplicação web que promova a cultura Hip-Hop, com foco em educação,
 ![Cadastro](./Prototipo/prints/cadastro.png)
 
 ### Quiz em andamento
-![Quiz](./Prototipo/prints/quiz01.png)
+![Quiz](./Prototipo/prints/quiz1.png)
 
 ### Dashboard do quiz em andamento
-![Dashboard](./Prototipo/prints/dash-quiz.png)
+![Dashboard](./Prototipo/prints/dashquiz.png)
 
 ---
 
