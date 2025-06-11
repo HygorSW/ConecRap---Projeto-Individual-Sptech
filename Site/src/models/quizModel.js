@@ -11,14 +11,14 @@ SELECT
     r.totalAcertos AS acertos,
     r.totalErros AS erros,
     t.dataHora AS inicio,
-    (SELECT COUNT(*) FROM questoes WHERE fkQuiz = q.idQuiz) AS qtd_questoes,
+    (SELECT COUNT(*) FROM Questoes WHERE fkQuiz = q.idQuiz) AS qtd_questoes,
     r.dataHoraFim AS fim,
     DATE(r.dataHoraFim) AS data_fim,
     SEC_TO_TIME(TIMESTAMPDIFF(SECOND, t.dataHora, r.dataHoraFim)) AS tempo
 FROM Tentativas AS t
 JOIN usuario AS u ON t.fkUsuario = u.idUsuario
-JOIN resultado AS r ON r.fkTentativa = t.idTentativa
-JOIN quiz AS q ON t.fkQuiz = q.idQuiz
+JOIN Resultado AS r ON r.fkTentativa = t.idTentativa
+JOIN Quiz AS q ON t.fkQuiz = q.idQuiz
 where u.idUsuario = ${idUsuario};
 
     `;
@@ -31,7 +31,7 @@ where u.idUsuario = ${idUsuario};
 function buscarQuestoes() {
     console.log("ACESSEI O QUIZ  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = `
-       SELECT * FROM questoes
+       SELECT * FROM Questoes;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
